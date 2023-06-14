@@ -1,9 +1,9 @@
 # Your Project's Title...
-crn.com on AEM Franklin
+theiotintegrator.com on AEM Franklin
 
 ## Environments
-- Preview: https://main--crn--hlxsites.hlx.page/
-- Live: https://main--crn--hlxsites.hlx.live/
+- Preview: https://main--channelco-iot--hlxsites.hlx.page/
+- Live: https://main--channelco-iot--hlxsites.hlx.live/
 
 ## Installation
 
