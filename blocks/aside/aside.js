@@ -34,4 +34,35 @@ export default function decorate(block) {
   `;
   const podCastEl = range.createContextualFragment(podCastPlaylistHTML);
   block.append(podCastEl);
+
+  // add twitter feed
+  const isAllianceArrow = window.location.href.includes('/alliances/arrow');
+  const twitterHandle = isAllianceArrow ? 'arw_services' : 'IoTSolutionPro';
+  const twiterHTML = `
+    <div class="aside-twitter">
+      <a href="https://twitter.com/${twitterHandle}" target="_blank"><img src="/icons/icon-twitter.png" alt="">
+      <h3>@${twitterHandle}</h3></a>
+    </div>
+    <a class="twitter-timeline" data-tweet-limit="3" data-width="300" data-height="310" data-theme="light" href="https://twitter.com/${twitterHandle}?ref_src=twsrc%5Etfw">
+      Tweets by ${twitterHandle}
+    </a>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  `;
+  const twitterEl = range.createContextualFragment(twiterHTML);
+  block.append(twitterEl);
+  if (isAllianceArrow) {
+    const linkedInHTML = `
+      <div class="aside-linkedin">
+        <a href="https://www.linkedin.com/showcase/arrow-intelligent-solutions/posts/?feedView=all" target="_blank"><img src="/icons/icon-linkedin.png" width="33%"  alt=""><h3>Arrow Intelligent Solutions</h3></a>
+      </div>
+      <div class="aside-linkedin">
+        <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:6886773723899158530" height="430" width="300" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+      </div>
+      <div class="aside-linkedin">
+          <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:6882353326327926784" height="430" width="300" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+      </div>
+    `;
+    const linkedInEl = range.createContextualFragment(linkedInHTML);
+    block.append(linkedInEl);
+  }
 }
