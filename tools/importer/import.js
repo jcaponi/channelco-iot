@@ -13,7 +13,7 @@ const createMetadataBlock = (main, document) => {
     if (titleFromContent) meta.Title = titleFromContent.textContent;
   }
   const subtitle = document.querySelector('article main article header.article-header h3.article-subtitle');
-  if (subtitle) meta.Subtitle = subtitle.innerHTML;
+  if (subtitle) meta.Subtitle = subtitle.textContent;
   const desc = document.head.querySelector('meta[property="og:description"]');
   if (desc) {
     meta.Description = desc.content;
@@ -37,17 +37,17 @@ const createMetadataBlock = (main, document) => {
   }
 
   // Article Key metadata
-  const articlePreface = document.querySelector('article main article div.article-preface');
-  if (articlePreface) {
-    const articleKeysList = articlePreface.querySelectorAll('.article-key-list li');
+  const articleKey = document.querySelector('article main article div.article-preface .article-key');
+  if (articleKey) {
+    const articleKeysList = articleKey.querySelectorAll('.article-key-list li');
     if (articleKeysList) {
       articleKeysList.forEach((li) => {
         const tag = li.textContent.split(':');
-        const key = tag[0];
-        const val = tag[1];
+        const key = tag[0].trim();
+        const val = tag[1].trim();
         if (tag) meta[key] = val;
       });
-      articlePreface.remove();
+      articleKey.remove();
     }
   }
 
