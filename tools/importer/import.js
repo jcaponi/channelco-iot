@@ -17,20 +17,28 @@ const createMetadataBlock = (main, document) => {
   if (publishedDate) meta.PublishedDate = publishedDate.content;
 
   // Author
-  const author = document.querySelector('article main article header.article-header ul.article-header-list span[rel="sioc:has_creator"] a');
-  if (author) meta.Author = author.text;
-  author.parentElement.parentElement.parentElement.remove();
+  const articleHeader = document.querySelector('article main article header.article-header ul.article-header-list');
+  if (articleHeader) {
+    const author = articleHeader.querySelector('span[rel="sioc:has_creator"] a');
+    if (author) {
+      meta.Author = author.text;
+      articleHeader.remove();
+    }
+  }
 
   // Article Key metadata
-  const articleKeysList = document.querySelectorAll('article main article div.article-preface .article-key-list li');
-  if (articleKeysList) {
-    articleKeysList.forEach((li) => {
-      const tag = li.textContent.split(':');
-      const key = tag[0];
-      const val = tag[1];
-      if (tag) meta[key] = val;
-    });
-    articleKeysList[0].parentElement.parentElement.remove();
+  const articlePreface = document.querySelector('article main article div.article-preface');
+  if (articlePreface) {
+    const articleKeysList = articlePreface.querySelectorAll('.article-key-list li');
+    if (articleKeysList) {
+      articleKeysList.forEach((li) => {
+        const tag = li.textContent.split(':');
+        const key = tag[0];
+        const val = tag[1];
+        if (tag) meta[key] = val;
+      });
+      articlePreface.remove();
+    }
   }
 
   // find the <meta property="og:image"> element
