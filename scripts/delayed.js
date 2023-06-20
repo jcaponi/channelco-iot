@@ -5,9 +5,6 @@ import {
   loadBlock,
 } from './lib-franklin.js';
 
-// Core Web Vitals RUM collection
-sampleRUM('cwv');
-
 // add more delayed functionality here
 
 function buildAsideBlock(main) {
@@ -32,3 +29,6 @@ function buildDelayedAutoBlocks(main) {
 }
 
 buildDelayedAutoBlocks(document.querySelector('main'));
+
+// Core Web Vitals RUM collection
+sampleRUM('cwv');

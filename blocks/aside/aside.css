@@ -125,3 +125,23 @@
     padding: 20px 0 0;
     margin-right: 20px;
 }
+
+/* Linked in styles */
+
+.aside-linkedin img {
+    width: 33%;
+}
+
+/* twitter handle styles */
+
+.aside-twitter a img {
+    margin-right: 5px;
+}
+
+.aside-twitter a {
+    color: #0860A8;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 0 20px 15px;
+    display: block;
+}
