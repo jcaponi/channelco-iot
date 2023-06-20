@@ -3,5 +3,5 @@ Please always provide the [GitHub issue(s)](../issues) your PR is for, as well a
 Fix #<gh-issue-id>
 
 Test URLs:
-- Before: https://main--crn--hlxsites.hlx.page/
-- After: https://<branch>--crn--hlxsites.hlx.page/
+- Before: https://main--channelco-iot--hlxsites.hlx.page/
+- After: https://<branch>--channelco-iot--hlxsites.hlx.page/
