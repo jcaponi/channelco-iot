@@ -5,10 +5,10 @@
 }
 
 .aside-block-infographic {
-    border-radius: 5px !important;
-    margin: 0 20px 30px 0 !important;
-    padding: 20px !important;
-    border: 1px solid #707070 !important;
+    border-radius: 5px;
+    margin: 0 20px 30px 0;
+    padding: 20px;
+    border: 1px solid #707070;
 }
 
 .aside-block-infographic-video-container {
@@ -16,7 +16,7 @@
 }
 
 .vjs-mouse.vjs-playlist {
-    background-color: transparent !important;
+    background-color: transparent;
     padding: 3px 3px 5px 0;
 }
 
