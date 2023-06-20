@@ -6,11 +6,21 @@ const createMetadataBlock = (main, document) => {
 
   // find the Title, Description and Subtitle
   const title = document.head.querySelector('meta[property="og:title"]');
-  if (title) meta.Title = title.content;
+  if (title) {
+    meta.Title = title.content;
+  } else {
+    const titleFromContent = document.querySelector('body article main article header h2.page-title');
+    if (titleFromContent) meta.Title = titleFromContent.textContent;
+  }
   const subtitle = document.querySelector('article main article header.article-header h3.article-subtitle');
   if (subtitle) meta.Subtitle = subtitle.innerHTML;
   const desc = document.head.querySelector('meta[property="og:description"]');
-  if (desc) meta.Description = desc.content;
+  if (desc) {
+    meta.Description = desc.content;
+  } else {
+    const description = document.head.querySelector('meta[name="description"]');
+    if (description) meta.Description = description.content;
+  }
 
   // Published date
   const publishedDate = document.head.querySelector('meta[property="article:published_time"]');
