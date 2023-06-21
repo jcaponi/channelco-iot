@@ -16,6 +16,29 @@ import {
 const LCP_BLOCKS = ['newslist']; // add your LCP blocks to the list
 
 /**
+ * Gets details about pages that are indexed
+ * @param {Array} pathnames list of pathnames
+ */
+export async function lookupPages(pathnames) {
+  if (!window.pageIndex) {
+    const resp = await fetch(`${window.hlx.codeBasePath}/query-index.json`);
+    const json = await resp.json();
+    const lookup = {};
+    json.data.forEach((row) => {
+      lookup[row.path] = row;
+      if (!row.image.startsWith('/default-meta-image.png')) {
+        row.image = `/${window.hlx.codeBasePath}${row.image}`;
+      }
+    });
+    window.pageIndex = {
+      data: json.data,
+      lookup,
+    };
+  }
+  return pathnames.map((path) => window.pageIndex.lookup[path]).filter((e) => e);
+}
+
+/**
  * Builds hero block and prepends to main in a new section.
  * @param {Element} main The container element
  */
