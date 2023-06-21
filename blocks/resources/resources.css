@@ -18,7 +18,9 @@
 .resources.list .article-card {
     position: relative;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 3fr;
+    margin: 20px 0 0;
+    gap: 15px;
 }
 
 .resources .article-card .description {
