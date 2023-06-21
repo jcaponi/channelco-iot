@@ -28,8 +28,8 @@ export default async function decorate(block) {
   const limit = 10;
   // get request parameter page as limit
   const usp = new URLSearchParams(window.location.search);
-  const pageOffset = usp.get('page') || 0;
-  const offset = parseInt(pageOffset, 10) * 10;
+  const pageOffset = parseInt(usp.get('page'), 10) || 0;
+  const offset = pageOffset * 10;
   const l = offset + limit;
   const filter = document.querySelector('.newslist.block').innerText;
   let key;
