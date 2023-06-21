@@ -1,0 +1,105 @@
+.newslist.block .newslist-container {
+  background: #fff;
+  border-radius: 5px;
+  margin: 20px 20px;
+  padding: 20px;
+  border: 1px solid #707070;
+}
+
+.newslist.block .newslist-container .newslist-item {
+  margin-top: 20px;
+}
+
+.newslist.block .newslist-container .newslist-item-photo img {
+  padding: 5px 0 0;
+  box-shadow: 0 1px 3px #e1e3ef;
+}
+
+.newslist.block .newslist-container .newslist-item-content .newslist-item-header {
+  line-height: 1.25;
+}
+
+.newslist.block .newslist-container .newslist-item-content .newslist-item-header a {
+  color: #000;
+  font-size: 14px;
+  font-weight: 600;
+  display: block;
+  border-bottom: 1px solid #000000;
+}
+
+.newslist.block .newslist-container a:hover {
+  text-decoration: none;
+}
+
+.newslist.block .newslist-container .newslist-item-content {
+  color: #707070;
+  font-size: 14px;
+}
+
+.newslist.block .newslist-container a {
+  color: #000;
+  font-size: 14px;
+}
+
+.newslist.block .newslist-container .newslist-item-content .newslist-item-main p {
+  line-height: 18px;
+  margin: 5px 0;
+}
+
+.newslist.block .newslist-container .newslist-item-content .newslist-item-footer {
+  color: #000;
+  font-size: 14px;
+}
+
+.newslist.block .newslist-container h2 {
+  color: #000000;
+  font-size: 18px;
+  padding: 20px 20px 30px 20px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+
+.newslist.block .newslist-container .resultslist-item {
+  padding-left: 20px;
+}
+
+.newslist.block .newslist-container .resultslist-item .resultslist-item-header {
+  text-decoration: underline;
+  padding-bottom: 15px;
+  font-weight: 600;
+}
+
+.newslist.block .newslist-container .resultslist-item .resultslist-item-content {
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.newslist.block .newslist-container .resultslist-item .resultslist-item-details {
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+
+@media only screen and (max-width: 600px) {
+
+  .newslist.block .newslist-container .newslist-item {
+    display: block;
+    border-bottom: 1px dotted #cccccc;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+
+  .newslist.block .newslist-container .newslist-item {
+    display: flex;
+  }
+
+  .newslist.block .newslist-container .newslist-item-photo {
+    width: 30%;
+    margin-right: 10px;
+  }
+
+  .newslist.block .newslist-container .newslist-item-content {
+    width: 70%;
+  }
+}
