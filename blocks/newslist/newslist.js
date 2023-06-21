@@ -1,4 +1,4 @@
-async function fetchIndex(indexURL='/query-index.json') {
+async function fetchIndex(indexURL = '/query-index.json') {
   try {
     const resp = await fetch(indexURL);
     const json = await resp.json();
@@ -44,7 +44,6 @@ export default async function decorate(block) {
   }
   const index = await fetchIndex();
   const shortIndex = key && value ? index.filter((e) => (e[key].toLowerCase() === value)) : index;
-  console.log(shortIndex);
   const newsListContainer = document.createElement('div');
   newsListContainer.classList.add('newslist-container');
   if (key && value) {
