@@ -1,0 +1,28 @@
+/* Mobile styles and defaults */
+.resources[data-block-status="loaded"] {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.resources .article-card {
+    margin: 15px;
+}
+
+.resources .article-card .description {
+    display: none;
+}
+
+/* Tablet styles */
+@media only screen and (min-width: 600px) {
+    .resources[data-block-status="loaded"] {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Desktop styles */
+@media only screen and (min-width: 900px) {
+    /* Desktop styles */
+}
