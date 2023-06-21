@@ -10,9 +10,9 @@
  * governing permissions and limitations under the License.
  */
 
-:root {
+ :root {
   /* colors */
-  --link-color: #000000;
+  --link-color: #000;
   --link-hover-color: #ed1c24;
   --background-color: #fff;
   --overlay-background-color: #eee;
@@ -20,7 +20,7 @@
   --text-color: #212529;
 
   /* fonts */
-  --body-font-family: apple-system, "system-ui", Arial, "Segoe UI", Roboto,
+  --body-font-family: apple-system, "system-ui", arial, "Segoe UI", roboto,
     "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol";
   --heading-font-family: var(--body-font-family);
@@ -79,18 +79,10 @@ h1, h2, h3, h4, h5, h6 {
   scroll-margin: calc(var(--nav-height) + 1em);
 }
 
-h1 {
-  font-size: var(--heading-font-size-xl);
-}
-h2 {
-  font-size: var(--heading-font-size-l);
-}
-h3 {
-  font-size: var(--heading-font-size-m);
-}
-h4 {
-  font-size: var(--heading-font-size-s);
-}
+h1 {font-size: var(--heading-font-size-xl);}
+h2 {font-size: var(--heading-font-size-l);}
+h3 {font-size: var(--heading-font-size-m);}
+h4 {font-size: var(--heading-font-size-s);}
 
 
 
