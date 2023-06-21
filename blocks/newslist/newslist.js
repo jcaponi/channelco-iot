@@ -1,8 +1,7 @@
-async function fetchIndex(indexURL) {
+async function fetchIndex(indexURL='/query-index.json') {
   try {
     const resp = await fetch(indexURL);
     const json = await resp.json();
-    // eslint-disable-next-line no-console
     return json.data;
   } catch (e) {
     // eslint-disable-next-line no-console
@@ -43,8 +42,7 @@ export default async function decorate(block) {
     key = filterTokens[0].trim().toLowerCase();
     value = filterTokens[1].trim().toLowerCase();
   }
-  const indexURL = '/query-index.json';
-  const index = await fetchIndex(indexURL);
+  const index = await fetchIndex();
   const shortIndex = key && value ? index.filter((e) => (e[key].toLowerCase() === value)) : index;
   console.log(shortIndex);
   const newsListContainer = document.createElement('div');
