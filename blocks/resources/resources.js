@@ -20,9 +20,8 @@ async function createCard(row, styles) {
     card.append(picLink);
   }
   const content = document.createElement('div');
-  // Create and add the link, title, author, readtime and category to card content and card
+  // Create and add the title link and description to card content and card
   const link = document.createElement('a');
-  // link.classList.add('blog-link');
   link.href = row.path;
   if (row.title && row.title !== '0') link.innerHTML += `<h3>${row.title}</h3>`;
   content.append(link);
