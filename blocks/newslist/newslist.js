@@ -13,28 +13,30 @@ async function fetchIndex(indexURL) {
 
 function getHumanReadableDate(dateString) {
   const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
   });
 }
 
 function convertToKebabCase(str) {
-  return str.toLowerCase().replace(/\s+/g, "-");
+  return str.toLowerCase().replace(/\s+/g, '-');
 }
 
 export default async function decorate(block) {
   const limit = 10;
   // get request parameter page as limit
   const usp = new URLSearchParams(window.location.search);
-  const offset = usp.get("page") || 1;
-  const filter = document.querySelector(".newslist.block").innerText;
-  let key, value;
+  const pageOffset = usp.get('page') || 0;
+  const offset = parseInt(pageOffset, 10) * 10;
+  const l = offset + limit;
+  const filter = document.querySelector('.newslist.block').innerText;
+  let key;
+  let value;
   if (filter) {
-    const filterTokens = filter.split(":");
+    const filterTokens = filter.split(':');
     if (filterTokens.length !== 2) {
-      console.log("invalid filter", filter);
       block.innerHTML = `Invalid filter ${filter}`;
       return;
     }
@@ -45,16 +47,17 @@ export default async function decorate(block) {
   const index = await fetchIndex(indexURL);
   const shortIndex = key && value ? index.filter((e) => (e[key].toLowerCase() === value)) : index;
   console.log(shortIndex);
-  const newsListContainer = document.createElement("div");
-  newsListContainer.classList.add("newslist-container");
+  const newsListContainer = document.createElement('div');
+  newsListContainer.classList.add('newslist-container');
   if (key && value) {
-    const header = document.createElement("h2");
+    const header = document.createElement('h2');
     header.innerText = value;
     newsListContainer.append(header);
   }
   const range = document.createRange();
 
-  shortIndex.forEach((e) => {
+  for (let i = offset; i < l && i < shortIndex.length; i += 1) {
+    const e = shortIndex[i];
     let itemHtml;
     if (key && value) {
       itemHtml = `
@@ -95,7 +98,19 @@ export default async function decorate(block) {
     }
     const item = range.createContextualFragment(itemHtml);
     newsListContainer.append(item);
-  });
+  }
+
+  // add pagination information
+  if (shortIndex.length > l || pageOffset > 0) {
+    const prev = pageOffset > 0 ? `<a href="?page=${parseInt(pageOffset, 10) - 1}">‹ previous</a>` : '';
+    const next = shortIndex.length > l ? `<a href="?page=${parseInt(pageOffset, 10) + 1}">next ›</a>` : '';
+    const paginationHtml = `
+      <div class="pagination">
+        ${prev}  <b>${parseInt(pageOffset, 10) + 1} of ${Math.ceil(shortIndex.length / 10)}</b> ${next}
+      </div>
+    `;
+    newsListContainer.append(range.createContextualFragment(paginationHtml));
+  }
 
   block.innerHTML = newsListContainer.outerHTML;
 }
