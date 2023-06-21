@@ -1,7 +1,12 @@
 async function fetchIndex(indexURL = '/query-index.json') {
+  if (window.queryIndex && window.queryIndex[indexURL]) {
+    return window.queryIndex[indexURL];
+  }
   try {
     const resp = await fetch(indexURL);
     const json = await resp.json();
+    window.queryIndex = window.queryIndex || {};
+    window.queryIndex[indexURL] = json.data;
     return json.data;
   } catch (e) {
     // eslint-disable-next-line no-console
