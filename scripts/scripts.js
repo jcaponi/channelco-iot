@@ -35,8 +35,7 @@ export async function lookupPages(pathnames) {
       lookup,
     };
   }
-  const result = pathnames.map((path) => window.pageIndex.lookup[path]).filter((e) => e);
-  return (result);
+  return pathnames.map((path) => window.pageIndex.lookup[path]).filter((e) => e);
 }
 
 /**
