@@ -261,6 +261,31 @@ main .section.highlight {
   background-color: var(--highlight-background-color);
 }
 
+.header-list {
+  color: #555;
+  font-size: 15px;
+  font-style: italic;
+
+}
+
+.article-key {
+  margin-top: -200px;
+  padding-bottom: 200px;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+  text-align: right;
+}
+
+
+.article-key-list {
+  display: inline-block;
+  text-align: left;
+}
+
+.article-key-item {
+  display: block;
+}
 
 /* Hero block styles */
 

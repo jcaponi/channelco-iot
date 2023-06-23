@@ -59,13 +59,86 @@ function buildHeroBlock(main) {
   main.prepend(section);
 }
 
+// Build Article Props
+// Retreive metadata value based on the key
+function getMetadata(key) {
+  const metaElement = document.querySelector(`meta[name="${key}"]`);
+  if (metaElement) {
+    return metaElement.getAttribute('content');
+  }
+  return '';
+}
+
+function capitalizeFirstLetter(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+// Format the published date
+function formatPublishedDate(rawDate) {
+  const date = new Date(rawDate);
+  const options = { year: 'numeric', month: 'short', day: 'numeric' };
+  return date.toLocaleDateString(undefined, options);
+}
+
+function createHeaderList(publishedDate, author) {
+  const headerList = document.createElement('div');
+  headerList.classList.add('header-list');
+  headerList.innerHTML = `${publishedDate} / Author: ${author}`;
+  return headerList;
+}
+
+function createListItem(key, value) {
+  const listItem = document.createElement('li');
+  listItem.classList.add('article-key-item');
+  listItem.textContent = `${capitalizeFirstLetter(key)}: ${value}`;
+  return listItem;
+}
+
+function createArticleKeyDiv(metadataKeys) {
+  const articleKeyDiv = document.createElement('div');
+  articleKeyDiv.classList.add('article-key');
+
+  const articleKeyList = document.createElement('ul');
+  articleKeyList.classList.add('article-key-list');
+
+  metadataKeys.forEach((key) => {
+    const value = getMetadata(key);
+    if (value) {
+      const listItem = createListItem(key, value);
+      articleKeyList.appendChild(listItem);
+    }
+  });
+
+  articleKeyDiv.appendChild(articleKeyList);
+  return articleKeyDiv;
+}
+
+// Build the article properties block
+function buildArticlePropsBlock(main) {
+  const rawPublishedDate = getMetadata('publisheddate');
+  const publishedDate = formatPublishedDate(rawPublishedDate);
+  const author = getMetadata('author');
+  const metadataKeys = ['vertical', 'application', 'featuredsis', 'featured-tech'];
+
+  const headerList = createHeaderList(publishedDate, author);
+  const articleKeyDiv = createArticleKeyDiv(metadataKeys);
+
+  const hook = main.querySelector('picture');
+  if (hook) {
+    hook.parentElement.prepend(headerList);
+    hook.parentElement.append(articleKeyDiv);
+  }
+}
+
 /**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
  */
+
 function buildAutoBlocks(main) {
   try {
     buildHeroBlock(main);
+    buildArticlePropsBlock(main);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
