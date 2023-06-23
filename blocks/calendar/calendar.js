@@ -82,7 +82,7 @@ function renderCalendar(month, year) {
             && year === today.getFullYear()
             && month === today.getMonth()) {
           day.title = 'today';
-          day.classList.add('today', 'selected-day');
+          day.classList.add('today');
         }
         day.appendChild(dateNum);
         week.appendChild(day);
@@ -94,11 +94,6 @@ function renderCalendar(month, year) {
     calendarTable.appendChild(week);
   }
   renderEvents(window.eventsData);
-  calendarTable.addEventListener('click', (e) => {
-    const sel = document.querySelector('.selected-day');
-    sel.classList.remove('selected-day');
-    e.target.classList.add('selected-day');
-  });
 }
 
 function renderMonths() {

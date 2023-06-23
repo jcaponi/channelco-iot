@@ -65,14 +65,14 @@
   font-weight: 800;
 }
 
-.calendar .calendar-table tbody td[title="today"],
-.calendar .calendar-table tbody td.selected-day {
+.calendar .calendar-table tbody td[title="today"] {
   border: 3px;
   border-style: solid;
   border-color: black;
 }
 
 .calendar .calendar-table tbody td.event .event {
+  padding: 1em;
   background-color: #74a5d7;
 }
 
