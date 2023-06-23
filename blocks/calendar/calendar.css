@@ -5,6 +5,7 @@
   display: flex;
   justify-content: center;
   margin-bottom: 2em;
+  font-size: x-large;
 }
 
 .calendar .months {
@@ -12,6 +13,7 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  font-size: large;
 }
 
 .calendar .year .next-year,
@@ -37,6 +39,7 @@
 
 .calendar .calendar-table thead th {
   text-align: center;
+  color: #777;
 }
 
 .calendar .calendar-table tbody td {
@@ -45,6 +48,7 @@
   text-align: right;
   vertical-align: top;
   padding: 5px 5px 0 0;
+  color: #777;
 }
 
 .calendar .calendar-table tbody td.dates {
@@ -53,10 +57,28 @@
   border-color: gray;
 }
 
+.calendar .calendar-table tbody td.event {
+  border: 3px;
+  border-style: solid;
+  border-color: #74a5d7;
+  color: #74a5d7;
+  font-weight: 800;
+}
+
+.calendar .calendar-table tbody td[title="today"],
 .calendar .calendar-table tbody td.selected-day {
   border: 3px;
   border-style: solid;
   border-color: black;
+}
+
+.calendar .calendar-table tbody td.event .event {
+  background-color: #74a5d7;
+}
+
+.calendar .calendar-table tbody td.event .event a,
+.calendar .calendar-table tbody td.event .event a:hover {
+  color: white;
 }
 
 @media only screen and (min-width: 600px) {

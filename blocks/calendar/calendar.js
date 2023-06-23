@@ -96,8 +96,8 @@ function renderCalendar(month, year) {
   renderEvents(window.eventsData);
   calendarTable.addEventListener('click', (e) => {
     const sel = document.querySelector('.selected-day');
-    sel.className = 'dates';
-    e.target.className = 'selected-day';
+    sel.classList.remove('selected-day');
+    e.target.classList.add('selected-day');
   });
 }
 
