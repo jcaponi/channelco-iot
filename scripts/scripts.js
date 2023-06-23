@@ -179,8 +179,9 @@ async function loadEager(doc) {
  * @param {Element} the main element
  */
 function setContentContainer(main) {
-  // this is the container that will hold the main page content and aside (which will be loaded in delayed)
-  const container = document.querySelector('.newslist-container') || document.querySelector(".hero-header-container+div.section");
+  // this is the container that will hold the main page content and
+  // aside (which will be loaded in delayed)
+  const container = main.querySelector('.newslist-container') || main.querySelector('.hero-header-container+div.section');
   if (container) {
     container.classList.add('content-container');
   }
