@@ -1,0 +1,103 @@
+/* CSS for Calendar block */
+
+.calendar .year {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2em;
+  font-size: x-large;
+}
+
+.calendar .months {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: large;
+}
+
+.calendar .year .next-year,
+.calendar .year .prev-year {
+  text-decoration: underline;
+}
+
+.calendar .months .each-month {
+  margin: 0 1em;
+  text-decoration: underline;
+}
+
+.calendar .year .big-year,
+.calendar .months .selected {
+  margin: 0 1em;
+  font-weight: 800;
+}
+
+.calendar .calendar-table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.calendar .calendar-table thead th {
+  text-align: center;
+  color: #777;
+}
+
+.calendar .calendar-table tbody td {
+  width: 4em;
+  height: 4em;
+  text-align: right;
+  vertical-align: top;
+  padding: 5px 5px 0 0;
+  color: #777;
+}
+
+.calendar .calendar-table tbody td.dates {
+  border: 1px;
+  border-style: solid;
+  border-color: gray;
+}
+
+.calendar .calendar-table tbody td.event {
+  border: 3px;
+  border-style: solid;
+  border-color: #74a5d7;
+  color: #74a5d7;
+  font-weight: 800;
+}
+
+.calendar .calendar-table tbody td[title="today"] {
+  border: 3px;
+  border-style: solid;
+  border-color: black;
+}
+
+.calendar .calendar-table tbody td.event .event {
+  background-color: #74a5d7;
+}
+
+.calendar .calendar-table tbody td.event .event a,
+.calendar .calendar-table tbody td.event .event a:hover {
+  color: white;
+}
+
+@media only screen and (min-width: 600px) {
+  .calendar .calendar-table tbody td {
+    width: 7em;
+    height: 7em;
+  }
+  
+  .calendar .calendar-table tbody td.event .event {
+    padding: 0.7em;
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .calendar .calendar-table tbody td {
+    width: 10em;
+    height: 10em;
+  }
+  
+  .calendar .calendar-table tbody td.event .event {
+    padding: 1em;
+  }
+}

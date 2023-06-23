@@ -1,6 +1,5 @@
 import {
   sampleRUM,
-  buildBlock,
   loadHeader,
   loadFooter,
   decorateButtons,
@@ -13,21 +12,51 @@ import {
   loadCSS,
 } from './lib-franklin.js';
 
-const LCP_BLOCKS = []; // add your LCP blocks to the list
+const LCP_BLOCKS = ['newslist']; // add your LCP blocks to the list
+
+/**
+ * Gets details about pages that are indexed
+ * @param {Array} pathnames list of pathnames
+ */
+export async function lookupPages(pathnames) {
+  if (!window.pageIndex) {
+    const resp = await fetch(`${window.hlx.codeBasePath}/query-index.json`);
+    const json = await resp.json();
+    const lookup = {};
+    json.data.forEach((row) => {
+      lookup[row.path] = row;
+      if (!row.image.startsWith('/default-meta-image.png')) {
+        row.image = `/${window.hlx.codeBasePath}${row.image}`;
+      }
+    });
+    window.pageIndex = {
+      data: json.data,
+      lookup,
+    };
+  }
+  return pathnames.map((path) => window.pageIndex.lookup[path]).filter((e) => e);
+}
 
 /**
  * Builds hero block and prepends to main in a new section.
  * @param {Element} main The container element
  */
 function buildHeroBlock(main) {
-  const h1 = main.querySelector('h1');
-  const picture = main.querySelector('picture');
-  // eslint-disable-next-line no-bitwise
-  if (h1 && picture && (h1.compareDocumentPosition(picture) & Node.DOCUMENT_POSITION_PRECEDING)) {
-    const section = document.createElement('div');
-    section.append(buildBlock('hero', { elems: [picture, h1] }));
-    main.prepend(section);
-  }
+  const heroHtml = `
+    <div class="hero-header">
+      <div class="hero-header-image">
+        <img src = '/images/hero-banner.jpeg'>
+      </div>
+      <div class="hero-container">
+        <h1 class="hero-header-title">
+          <a href="/" class="hero-header-title-link">IoT Integrator</a>
+        </h1>
+        <h2 class="hero-header-subtitle">Powering the business behind the Internet of Things</h2>
+    </div>
+  `;
+  const section = document.createElement('div');
+  section.innerHTML = heroHtml;
+  main.prepend(section);
 }
 // Build Article Props
 // Retreive metadata value based on the key
