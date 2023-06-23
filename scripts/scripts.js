@@ -58,6 +58,7 @@ function buildHeroBlock(main) {
   section.innerHTML = heroHtml;
   main.prepend(section);
 }
+
 // Build Article Props
 // Retreive metadata value based on the key
 function getMetadata(key) {
@@ -66,60 +67,6 @@ function getMetadata(key) {
     return metaElement.getAttribute('content');
   }
   return '';
-}
-// Build the article properties block
-function buildArticlePropsBlock(main) {
-  const rawPublishedDate = getMetadata('publisheddate');
-  // eslint-disable-next-line no-use-before-define
-  const publishedDate = formatPublishedDate(rawPublishedDate);
-  const author = getMetadata('author');
-  const metadataKeys = ['vertical', 'application', 'featuredsis', 'featured-tech'];
-
-  // eslint-disable-next-line no-use-before-define
-  const headerList = createHeaderList(publishedDate, author);
-  // eslint-disable-next-line no-use-before-define
-  const articleKeyDiv = createArticleKeyDiv(metadataKeys);
-
-  const hook = main.querySelector('picture');
-  if (hook) {
-    hook.parentElement.prepend(headerList);
-    hook.parentElement.append(articleKeyDiv);
-  }
-}
-
-function createHeaderList(publishedDate, author) {
-  const headerList = document.createElement('div');
-  headerList.classList.add('header-list');
-  headerList.innerHTML = `${publishedDate} / Author: ${author}`;
-  return headerList;
-}
-
-function createArticleKeyDiv(metadataKeys) {
-  const articleKeyDiv = document.createElement('div');
-  articleKeyDiv.classList.add('article-key');
-
-  const articleKeyList = document.createElement('ul');
-  articleKeyList.classList.add('article-key-list');
-
-  metadataKeys.forEach((key) => {
-    const value = getMetadata(key);
-    if (value) {
-      // eslint-disable-next-line no-use-before-define
-      const listItem = createListItem(key, value);
-      articleKeyList.appendChild(listItem);
-    }
-  });
-
-  articleKeyDiv.appendChild(articleKeyList);
-  return articleKeyDiv;
-}
-
-function createListItem(key, value) {
-  const listItem = document.createElement('li');
-  listItem.classList.add('article-key-item');
-  // eslint-disable-next-line no-use-before-define
-  listItem.textContent = `${capitalizeFirstLetter(key)}: ${value}`;
-  return listItem;
 }
 
 function capitalizeFirstLetter(str) {
@@ -133,6 +80,56 @@ function formatPublishedDate(rawDate) {
   return date.toLocaleDateString(undefined, options);
 }
 
+function createHeaderList(publishedDate, author) {
+  const headerList = document.createElement('div');
+  headerList.classList.add('header-list');
+  headerList.innerHTML = `${publishedDate} / Author: ${author}`;
+  return headerList;
+}
+
+function createListItem(key, value) {
+  const listItem = document.createElement('li');
+  listItem.classList.add('article-key-item');
+  listItem.textContent = `${capitalizeFirstLetter(key)}: ${value}`;
+  return listItem;
+}
+
+function createArticleKeyDiv(metadataKeys) {
+  const articleKeyDiv = document.createElement('div');
+  articleKeyDiv.classList.add('article-key');
+
+  const articleKeyList = document.createElement('ul');
+  articleKeyList.classList.add('article-key-list');
+
+  metadataKeys.forEach((key) => {
+    const value = getMetadata(key);
+    if (value) {
+      const listItem = createListItem(key, value);
+      articleKeyList.appendChild(listItem);
+    }
+  });
+
+  articleKeyDiv.appendChild(articleKeyList);
+  return articleKeyDiv;
+}
+
+// Build the article properties block
+function buildArticlePropsBlock(main) {
+  const rawPublishedDate = getMetadata('publisheddate');
+  const publishedDate = formatPublishedDate(rawPublishedDate);
+  const author = getMetadata('author');
+  const metadataKeys = ['vertical', 'application', 'featuredsis', 'featured-tech'];
+
+  const headerList = createHeaderList(publishedDate, author);
+  const articleKeyDiv = createArticleKeyDiv(metadataKeys);
+
+  const hook = main.querySelector('picture');
+  if (hook) {
+    hook.parentElement.prepend(headerList);
+    hook.parentElement.append(articleKeyDiv);
+  }
+}
+
 /**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
@@ -141,7 +138,6 @@ function formatPublishedDate(rawDate) {
 function buildAutoBlocks(main) {
   try {
     buildHeroBlock(main);
-    // eslint-disable-next-line no-undef
     buildArticlePropsBlock(main);
   } catch (error) {
     // eslint-disable-next-line no-console
