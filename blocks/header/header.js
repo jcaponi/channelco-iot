@@ -57,7 +57,6 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
   const button = nav.querySelector('.nav-hamburger button');
   document.body.style.overflowY = (expanded || isDesktop.matches) ? '' : 'hidden';
   nav.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-  toggleAllNavSections(navSections, expanded || isDesktop.matches ? 'false' : 'true');
   button.setAttribute('aria-label', expanded ? 'Open navigation' : 'Close navigation');
   // enable nav dropdown keyboard accessibility
   const navDrops = navSections.querySelectorAll('.nav-drop');
@@ -82,6 +81,11 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
     window.addEventListener('keydown', closeOnEscape);
   } else {
     window.removeEventListener('keydown', closeOnEscape);
+  }
+  // tools
+  if (!isDesktop.matches) {
+    const tools = nav.querySelector('.nav-tools');
+    tools.style.display = expanded ? 'none' : 'flex';
   }
 }
 
@@ -114,14 +118,18 @@ export default async function decorate(block) {
       navSections.querySelectorAll(':scope > ul > li').forEach((navSection) => {
         if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
         navSection.addEventListener('click', () => {
-          if (isDesktop.matches) {
-            const expanded = navSection.getAttribute('aria-expanded') === 'true';
-            toggleAllNavSections(navSections);
-            navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-          }
+          const expanded = navSection.getAttribute('aria-expanded') === 'true';
+          toggleAllNavSections(navSections);
+          navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
         });
       });
     }
+
+    // search tool
+    const search = nav.querySelector('.nav-tools');
+    search.innerHTML = `
+      <input type="search" name="search" id="search" class="input-search" placeholder="Search">
+    `;
 
     // hamburger for mobile
     const hamburger = document.createElement('div');
@@ -132,8 +140,10 @@ export default async function decorate(block) {
     hamburger.addEventListener('click', () => toggleMenu(nav, navSections));
     nav.prepend(hamburger);
     nav.setAttribute('aria-expanded', 'false');
-    // prevent mobile nav behavior on window resize
+    toggleAllNavSections(navSections, false);
+
     toggleMenu(nav, navSections, isDesktop.matches);
+    // prevent mobile nav behavior on window resize
     isDesktop.addEventListener('change', () => toggleMenu(nav, navSections, isDesktop.matches));
 
     decorateIcons(nav);
