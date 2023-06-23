@@ -41,7 +41,7 @@
   --heading-font-size-s: 15px;
 
   /* nav height */
-  --nav-height: 64px;
+  --nav-height: 53px;
 }
 
 @media (min-width: 900px) {

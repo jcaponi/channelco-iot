@@ -57,7 +57,6 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
   const button = nav.querySelector('.nav-hamburger button');
   document.body.style.overflowY = (expanded || isDesktop.matches) ? '' : 'hidden';
   nav.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-  toggleAllNavSections(navSections, expanded || isDesktop.matches ? 'false' : 'true');
   button.setAttribute('aria-label', expanded ? 'Open navigation' : 'Close navigation');
   // enable nav dropdown keyboard accessibility
   const navDrops = navSections.querySelectorAll('.nav-drop');
@@ -82,6 +81,11 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
     window.addEventListener('keydown', closeOnEscape);
   } else {
     window.removeEventListener('keydown', closeOnEscape);
+  }
+  // tools
+  if (!isDesktop.matches) {
+    const tools = nav.querySelector('.nav-tools');
+    tools.style.display = expanded ? 'none' : 'flex';
   }
 }
 
@@ -138,8 +142,16 @@ export default async function decorate(block) {
     hamburger.addEventListener('click', () => toggleMenu(nav, navSections));
     nav.prepend(hamburger);
     nav.setAttribute('aria-expanded', 'false');
-    // prevent mobile nav behavior on window resize
+    toggleAllNavSections(navSections, false);
+    navSections.querySelectorAll('.nav-drop').forEach((item) => {
+      item.addEventListener('click', (e) => {
+        const expanded = e.target.getAttribute('aria-expanded') === 'true';
+        e.target.setAttribute('aria-expanded', !expanded);
+      });
+    });
+
     toggleMenu(nav, navSections, isDesktop.matches);
+    // prevent mobile nav behavior on window resize
     isDesktop.addEventListener('change', () => toggleMenu(nav, navSections, isDesktop.matches));
 
     decorateIcons(nav);
