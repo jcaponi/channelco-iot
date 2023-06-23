@@ -29,14 +29,83 @@ function buildHeroBlock(main) {
     main.prepend(section);
   }
 }
+// Build Article Props
+// Retreive metadata value based on the key
+function getMetadata(key) {
+  const metaElement = document.querySelector(`meta[name="${key}"]`);
+  if (metaElement) {
+    return metaElement.getAttribute('content');
+  }
+  return '';
+}
+// Build the article properties block
+function buildArticlePropsBlock(main) {
+  const rawPublishedDate = getMetadata('publisheddate');
+  // eslint-disable-next-line no-use-before-define
+  const publishedDate = formatPublishedDate(rawPublishedDate);
+  const author = `Author: ${getMetadata('author')}`;
+  const vertical = `Vertical: ${getMetadata('vertical')}`;
+  const application = `Application: ${getMetadata('application')}`;
+  const featuredSIs = `Featured SIs: ${getMetadata('featuredsis')}`;
+  const featuredTech = `Featured Tech: ${getMetadata('featured-tech')}`;
+
+  const headerList = document.createElement('div');
+  headerList.classList.add('header-list');
+  headerList.innerHTML = `${publishedDate} / ${author}`;
+
+  const articleKeyDiv = document.createElement('div');
+  articleKeyDiv.classList.add('article-key');
+
+  const articleKeyList = document.createElement('ul');
+  articleKeyList.classList.add('article-key-list');
+
+  const verticalItem = document.createElement('li');
+  verticalItem.classList.add('article-key-item');
+  verticalItem.textContent = vertical;
+
+  const applicationItem = document.createElement('li');
+  applicationItem.classList.add('article-key-item');
+  applicationItem.textContent = application;
+
+  const featuredSIsItem = document.createElement('li');
+  featuredSIsItem.classList.add('article-key-item');
+  featuredSIsItem.textContent = featuredSIs;
+
+  const featuredTechItem = document.createElement('li');
+  featuredTechItem.classList.add('article-key-item');
+  featuredTechItem.textContent = featuredTech;
+
+  articleKeyList.appendChild(verticalItem);
+  articleKeyList.appendChild(applicationItem);
+  articleKeyList.appendChild(featuredSIsItem);
+  articleKeyList.appendChild(featuredTechItem);
+
+  articleKeyDiv.appendChild(articleKeyList);
+
+  const hook = main.querySelector('picture');
+  if (hook) {
+    hook.parentElement.prepend(headerList);
+    hook.parentElement.prepend(articleKeyDiv);
+  }
+}
+
+// Format the published date
+function formatPublishedDate(rawDate) {
+  const date = new Date(rawDate);
+  const options = { year: 'numeric', month: 'short', day: 'numeric' };
+  return date.toLocaleDateString(undefined, options);
+}
 
 /**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
  */
+
 function buildAutoBlocks(main) {
   try {
     buildHeroBlock(main);
+    // eslint-disable-next-line no-undef
+    buildArticlePropsBlock(main);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
