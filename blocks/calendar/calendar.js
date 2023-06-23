@@ -75,32 +75,6 @@ function renderMonths() {
     });
   });
 }
-// function previousMonth() {
-//   const prevMonthEl = document.querySelector('.prev-month');
-//   prevMonthEl.addEventListener('click', (e) => {
-//     e.preventDefault();
-//     if (currentMonth === 0) {
-//       currentMonth = 11;
-//       currentYear -= 1;
-//     } else {
-//       currentMonth -= 1;
-//     }
-//     renderCalendar(currentMonth, currentYear);
-//   });
-// }
-
-// function nextMonth() {
-//   const nextMonthEl = document.querySelector('.next-month');
-//   nextMonthEl.addEventListener('click', (e) => {
-//     e.preventDefault();
-//     if (currentMonth === 11) {
-//       currentMonth = 0;
-//       currentYear += 1;
-//     }
-//     currentMonth += 1;
-//     renderCalendar(currentMonth, currentYear);
-//   });
-// }
 
 function nextYear() {
   const nextYearEl = document.querySelector('.next-year');
@@ -120,14 +94,53 @@ function previousYear() {
   });
 }
 
+/**
+ * Converts excel datetime strings to a Date object
+ * @returns {Date} Date object
+ */
+export function getDateFromExcel(date) {
+  const excelDate = +date > 99999
+    ? new Date(+date * 1000)
+    : new Date(Math.round((+date - (1 + 25567 + 1)) * 86400 * 1000));
+  return excelDate;
+}
+
+function renderEvents(events) {
+  events.forEach((event) => {
+    const {
+      startDate,
+      endDate,
+      eventName,
+      eventUrl,
+    } = event;
+
+    const eventStart = getDateFromExcel(startDate);
+    const eventEnd = getDateFromExcel(endDate);
+    // Get all dates between start and end so we know which
+    // cells to add this event to.
+    const eventDates = [];
+    for (let dt = eventStart; dt <= eventEnd; dt.setDate(dt.getDate() + 1)) {
+      const newDate = new Date(dt);
+      // convert date to YYYYMMDD string that we need to get to the right cell
+      const cellId = newDate.toISOString().substring(0, 10).replaceAll('-', '');
+      eventDates.push(cellId);
+    }
+    // Add the event data to all cells that match the dates
+    eventDates.forEach((date) => {
+      const cell = document.querySelector(`.calendar.block tbody td[id="${date}"]`);
+      const eventContent = `
+        <div class="event">
+          <a class="eventLink" href="${eventUrl}" title="${eventName} starts on ${eventStart} and ends on ${eventEnd}">${eventName}</div>
+        </div>
+      `;
+      cell.innerHTML += eventContent;
+    });
+  });
+}
+
 export default async function decorate(block) {
-  // const eventsLink = block.querySelector('a');
+  const eventsLink = block.querySelector('a');
   block.innerHTML = '';
-  // if (eventsLink.href) {
-  //   const eventsRes = await fetch(eventsLink.href);
-  //   const eventsJson = await eventsRes.json();
-  //   console.log(`eventsJson is ${JSON.stringify(eventsJson)}`);
-  // }
   // Build out the div structure
   const calendar = `
       <div class="card">
@@ -162,4 +175,9 @@ export default async function decorate(block) {
   previousYear();
   // nextMonth();
   // previousMonth();
+  if (eventsLink.href) {
+    const eventsRes = await fetch(eventsLink.href);
+    const eventsJson = await eventsRes.json();
+    if (eventsJson.data && eventsJson.data.length > 0) renderEvents(eventsJson.data);
+  }
 }
