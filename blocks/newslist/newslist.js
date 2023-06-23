@@ -1,3 +1,20 @@
+/**
+ * Traverse the whole json structure in data and replace '0' with empty string
+ * @param {*} data
+ * @returns updated data
+ */
+function replaceEmptyValues(data) {
+
+  Object.keys(data).forEach((key) => {
+    if (typeof data[key] === 'object') {
+      replaceEmptyValues(data[key]);
+    } else if (data[key] === '0') {
+      data[key] = '';
+    }
+  });
+  return data;
+}
+
 async function fetchIndex(indexURL = '/query-index.json') {
   if (window.queryIndex && window.queryIndex[indexURL]) {
     return window.queryIndex[indexURL];
@@ -5,6 +22,7 @@ async function fetchIndex(indexURL = '/query-index.json') {
   try {
     const resp = await fetch(indexURL);
     const json = await resp.json();
+    replaceEmptyValues(json.data);
     window.queryIndex = window.queryIndex || {};
     window.queryIndex[indexURL] = json.data;
     return json.data;
@@ -16,6 +34,7 @@ async function fetchIndex(indexURL = '/query-index.json') {
 }
 
 function getHumanReadableDate(dateString) {
+  if (!dateString) return dateString;
   const date = new Date(dateString);
   return date.toLocaleDateString('en-US', {
     year: 'numeric',

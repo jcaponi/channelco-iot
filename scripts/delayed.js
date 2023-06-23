@@ -11,7 +11,11 @@ function buildAsideBlock(main) {
   const block = buildBlock('aside', [[]]);
   block.classList.add('block');
   block.setAttribute('data-block-name', 'aside');
-  main.append(block);
+  // append the aside block to either newslist-container or first non hero-header-container section
+  const container = document.querySelector('.newslist-container') || document.querySelector(".hero-header-container+div.section");
+  if (container) {
+    container.append(block);
+  }
   loadBlock(block);
 }
 

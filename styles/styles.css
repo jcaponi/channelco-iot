@@ -15,6 +15,7 @@
   --link-color: #000;
   --link-hover-color: #ed1c24;
   --background-color: #fff;
+  --main-background-color: #ecebeb;
   --overlay-background-color: #eee;
   --highlight-background-color: #ccc;
   --header-background-color: #000;
@@ -240,19 +241,35 @@ main img {
 }
 
 main .section {
-  padding: 64px 16px;
-}
-
-@media (min-width: 600px) {
-  main .section {
-    padding: 64px 32px;
-  }
+  padding: 0 16px;
 }
 
 @media (min-width: 900px) {
-  .section > div {
+  .section>div {
     max-width: 1200px;
     margin: auto;
+  }
+
+  main .section.content-container {
+    background-color: var(--main-background-color);
+    display: flex;
+    width: 1140px;
+    margin: auto;
+    padding: 0 15px;
+    box-sizing: border-box;
+    justify-content: space-between;
+  }
+
+  main .section.content-container > div:first-child {
+    width: 66.6666%;
+    padding: 0;
+    margin: unset;
+  }
+
+  main .section.content-container > div:nth-child(2) {
+    width: 33.3333%;
+    margin: unset;
+    margin-top: 20px;
   }
 }
 
@@ -277,7 +294,6 @@ main .section.highlight {
   text-align: right;
 }
 
-
 .article-key-list {
   display: inline-block;
   text-align: left;
@@ -287,11 +303,30 @@ main .section.highlight {
   display: block;
 }
 
+/* page title */
+
+main .page-title {
+  max-width: 1140px;
+  margin: auto;
+  padding: 5px 5px 20px 0px;
+}
+
+main .page-title h4 {
+  color: #000000;
+  font-size: 18px;
+  padding: 20px 20px 0;
+  margin: 0;
+}
+
+main .page-title h4 a {
+  text-decoration: underline;
+}
+
 /* Hero block styles */
 
 
 main .section.hero-header-container {
-  padding: 64px 0;
+  padding: 65px 0;
 }
 
 main .section.hero-header-container h1,
