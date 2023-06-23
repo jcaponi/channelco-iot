@@ -5,6 +5,55 @@ let currentMonth = today.getMonth();
 let currentYear = today.getFullYear();
 const allMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
+/**
+ * Converts excel datetime strings to a Date object
+ * @returns {Date} Date object
+ */
+export function getDateFromExcel(date) {
+  const excelDate = +date > 99999
+    ? new Date(+date * 1000)
+    : new Date(Math.round((+date - (1 + 25567 + 1)) * 86400 * 1000));
+  return excelDate;
+}
+
+/**
+ * Adds event across multiple cells that span across event start and end dates
+ * @argument {Array} Events array
+ */
+function renderEvents(events) {
+  events.forEach((event) => {
+    const {
+      startDate,
+      endDate,
+      eventName,
+      eventUrl,
+    } = event;
+
+    const eventStart = getDateFromExcel(startDate);
+    const eventEnd = getDateFromExcel(endDate);
+    // Get all dates between start and end so we know which
+    // cells to add this event to.
+    const eventDates = [];
+    for (let dt = eventStart; dt <= eventEnd; dt.setDate(dt.getDate() + 1)) {
+      const newDate = new Date(dt);
+      // convert date to YYYYMMDD string that we need to get to the right cell
+      const cellId = newDate.toISOString().substring(0, 10).replaceAll('-', '');
+      eventDates.push(cellId);
+    }
+    // Add the event data to all cells that match the dates
+    eventDates.forEach((date) => {
+      const cell = document.querySelector(`.calendar.block tbody td[id="${date}"]`);
+      const eventContent = `
+        <div class="event">
+          <a class="eventLink" href="${eventUrl}" title="${eventName} starts on ${eventStart} and ends on ${eventEnd}">${eventName}</a>
+        </div>
+      `;
+      cell.innerHTML += eventContent;
+      cell.classList.add('event');
+    });
+  });
+}
+
 function renderCalendar(month, year) {
   const firstDayOfTheMonth = (new Date(year, month)).getDay();
   const daysInMonth = 32 - new Date(year, month, 32).getDate();
@@ -44,6 +93,7 @@ function renderCalendar(month, year) {
     }
     calendarTable.appendChild(week);
   }
+  renderEvents(window.eventsData);
   calendarTable.addEventListener('click', (e) => {
     const sel = document.querySelector('.selected-day');
     sel.className = 'dates';
@@ -94,50 +144,6 @@ function previousYear() {
   });
 }
 
-/**
- * Converts excel datetime strings to a Date object
- * @returns {Date} Date object
- */
-export function getDateFromExcel(date) {
-  const excelDate = +date > 99999
-    ? new Date(+date * 1000)
-    : new Date(Math.round((+date - (1 + 25567 + 1)) * 86400 * 1000));
-  return excelDate;
-}
-
-function renderEvents(events) {
-  events.forEach((event) => {
-    const {
-      startDate,
-      endDate,
-      eventName,
-      eventUrl,
-    } = event;
-
-    const eventStart = getDateFromExcel(startDate);
-    const eventEnd = getDateFromExcel(endDate);
-    // Get all dates between start and end so we know which
-    // cells to add this event to.
-    const eventDates = [];
-    for (let dt = eventStart; dt <= eventEnd; dt.setDate(dt.getDate() + 1)) {
-      const newDate = new Date(dt);
-      // convert date to YYYYMMDD string that we need to get to the right cell
-      const cellId = newDate.toISOString().substring(0, 10).replaceAll('-', '');
-      eventDates.push(cellId);
-    }
-    // Add the event data to all cells that match the dates
-    eventDates.forEach((date) => {
-      const cell = document.querySelector(`.calendar.block tbody td[id="${date}"]`);
-      const eventContent = `
-        <div class="event">
-          <a class="eventLink" href="${eventUrl}" title="${eventName} starts on ${eventStart} and ends on ${eventEnd}">${eventName}</div>
-        </div>
-      `;
-      cell.innerHTML += eventContent;
-    });
-  });
-}
-
 export default async function decorate(block) {
   const eventsLink = block.querySelector('a');
   block.innerHTML = '';
@@ -169,15 +175,19 @@ export default async function decorate(block) {
     `;
   block.innerHTML += calendar;
 
+  if (eventsLink.href) {
+    if (!window.eventsData) {
+      const eventsRes = await fetch(eventsLink.href);
+      const eventsJson = await eventsRes.json();
+      if (eventsJson.data && eventsJson.data.length > 0) {
+        window.eventsData = eventsJson.data;
+      }
+    }
+  }
   renderMonths();
   renderCalendar(currentMonth, currentYear);
   nextYear();
   previousYear();
   // nextMonth();
   // previousMonth();
-  if (eventsLink.href) {
-    const eventsRes = await fetch(eventsLink.href);
-    const eventsJson = await eventsRes.json();
-    if (eventsJson.data && eventsJson.data.length > 0) renderEvents(eventsJson.data);
-  }
 }
