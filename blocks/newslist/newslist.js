@@ -56,7 +56,7 @@ export default async function decorate(block) {
   const filter = document.querySelector('.newslist.block').innerText;
   let key;
   let value;
-  if (filter) {
+  if (filter && filter.trim().length > 0) {
     const filterTokens = filter.split(':');
     if (filterTokens.length !== 2) {
       block.innerHTML = `Invalid filter ${filter}`;
