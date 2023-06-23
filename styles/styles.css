@@ -262,8 +262,8 @@ main .section.highlight {
 }
 
 .article-key {
-  margin: 0;
-  padding: 0;
+  margin-top: -200px;
+  padding-bottom: 200px;
   border: 0;
   font: inherit;
   vertical-align: baseline;

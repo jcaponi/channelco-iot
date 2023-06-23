@@ -43,50 +43,58 @@ function buildArticlePropsBlock(main) {
   const rawPublishedDate = getMetadata('publisheddate');
   // eslint-disable-next-line no-use-before-define
   const publishedDate = formatPublishedDate(rawPublishedDate);
-  const author = `Author: ${getMetadata('author')}`;
-  const vertical = `Vertical: ${getMetadata('vertical')}`;
-  const application = `Application: ${getMetadata('application')}`;
-  const featuredSIs = `Featured SIs: ${getMetadata('featuredsis')}`;
-  const featuredTech = `Featured Tech: ${getMetadata('featured-tech')}`;
+  const author = getMetadata('author');
+  const metadataKeys = ['vertical', 'application', 'featuredsis', 'featured-tech'];
 
+  // eslint-disable-next-line no-use-before-define
+  const headerList = createHeaderList(publishedDate, author);
+  // eslint-disable-next-line no-use-before-define
+  const articleKeyDiv = createArticleKeyDiv(metadataKeys);
+
+  const hook = main.querySelector('picture');
+  if (hook) {
+    hook.parentElement.prepend(headerList);
+    hook.parentElement.append(articleKeyDiv);
+  }
+}
+
+function createHeaderList(publishedDate, author) {
   const headerList = document.createElement('div');
   headerList.classList.add('header-list');
-  headerList.innerHTML = `${publishedDate} / ${author}`;
+  headerList.innerHTML = `${publishedDate} / Author: ${author}`;
+  return headerList;
+}
 
+function createArticleKeyDiv(metadataKeys) {
   const articleKeyDiv = document.createElement('div');
   articleKeyDiv.classList.add('article-key');
 
   const articleKeyList = document.createElement('ul');
   articleKeyList.classList.add('article-key-list');
 
-  const verticalItem = document.createElement('li');
-  verticalItem.classList.add('article-key-item');
-  verticalItem.textContent = vertical;
-
-  const applicationItem = document.createElement('li');
-  applicationItem.classList.add('article-key-item');
-  applicationItem.textContent = application;
-
-  const featuredSIsItem = document.createElement('li');
-  featuredSIsItem.classList.add('article-key-item');
-  featuredSIsItem.textContent = featuredSIs;
-
-  const featuredTechItem = document.createElement('li');
-  featuredTechItem.classList.add('article-key-item');
-  featuredTechItem.textContent = featuredTech;
-
-  articleKeyList.appendChild(verticalItem);
-  articleKeyList.appendChild(applicationItem);
-  articleKeyList.appendChild(featuredSIsItem);
-  articleKeyList.appendChild(featuredTechItem);
+  metadataKeys.forEach((key) => {
+    const value = getMetadata(key);
+    if (value) {
+      // eslint-disable-next-line no-use-before-define
+      const listItem = createListItem(key, value);
+      articleKeyList.appendChild(listItem);
+    }
+  });
 
   articleKeyDiv.appendChild(articleKeyList);
+  return articleKeyDiv;
+}
 
-  const hook = main.querySelector('picture');
-  if (hook) {
-    hook.parentElement.prepend(headerList);
-    hook.parentElement.prepend(articleKeyDiv);
-  }
+function createListItem(key, value) {
+  const listItem = document.createElement('li');
+  listItem.classList.add('article-key-item');
+  // eslint-disable-next-line no-use-before-define
+  listItem.textContent = `${capitalizeFirstLetter(key)}: ${value}`;
+  return listItem;
+}
+
+function capitalizeFirstLetter(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 // Format the published date
