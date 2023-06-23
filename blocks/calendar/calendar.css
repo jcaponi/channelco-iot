@@ -1,0 +1,74 @@
+/* CSS for Calendar block */
+
+.calendar .year {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2em;
+}
+
+.calendar .months {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.calendar .year .next-year,
+.calendar .year .prev-year {
+  text-decoration: underline;
+}
+
+.calendar .months .each-month {
+  margin: 0 1em;
+  text-decoration: underline;
+}
+
+.calendar .year .big-year,
+.calendar .months .selected {
+  margin: 0 1em;
+  font-weight: 800;
+}
+
+.calendar .calendar-table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.calendar .calendar-table thead th {
+  text-align: center;
+}
+
+.calendar .calendar-table tbody td {
+  width: 5em;
+  height: 5em;
+  text-align: right;
+  vertical-align: top;
+  padding: 5px 5px 0 0;
+}
+
+.calendar .calendar-table tbody td.dates {
+  border: 1px;
+  border-style: solid;
+  border-color: gray;
+}
+
+.calendar .calendar-table tbody td.selected-day {
+  border: 3px;
+  border-style: solid;
+  border-color: black;
+}
+
+@media only screen and (min-width: 600px) {
+  .calendar .calendar-table tbody td {
+    width: 7em;
+    height: 7em;
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .calendar .calendar-table tbody td {
+    width: 10em;
+    height: 10em;
+  }
+}
