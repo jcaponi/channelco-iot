@@ -45,7 +45,7 @@ function buildHeroBlock(main) {
   const heroHtml = `
     <div class="hero-header">
       <div class="hero-header-image">
-        <img src = '/icons/bg-hero-header.jpg'>
+        <img src = '/images/hero-banner.jpeg'>
       </div>
       <div class="hero-container">
         <h1 class="hero-header-title">

@@ -314,7 +314,7 @@ main .section .hero-container {
 
 @media (max-width: 900px) {
   main .section.hero-header-container {
-    background-image: url('/icons/bg-hero-header.jpg');
+    background-image: url('/images/hero-banner.jpeg');
     background-size: cover;
     background-position: center center;
   }
