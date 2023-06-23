@@ -136,6 +136,10 @@ header .nav-brand {
   font-weight: 600;
 }
 
+header .nav-brand a:hover {
+  text-decoration: none;
+}
+
 header nav .nav-brand img {
   width: 128px;
   height: auto;
@@ -185,10 +189,11 @@ header nav .nav-sections > ul > li[aria-expanded="true"] > ul {
   display: block;
   position: absolute;
   min-width: 160px;
-  margin-top: 12px;
+  margin: 36px 0 0 50px;
   background-color: var(--header-background-color);
   white-space: initial;
   border-top: 2px solid #00aeef;
+  z-index: 10;
 }
 
 header nav .nav-sections .nav-drop {
@@ -238,6 +243,10 @@ header nav .nav-tools {
   padding-left: 10px;
 }
 
+header nav .nav-sections > ul > li > ul > li {
+  padding: 12px 16px;
+}
+
 @media (min-width: 900px) {
   header nav .nav-sections {
     display: block;
@@ -267,8 +276,28 @@ header nav .nav-tools {
     text-decoration: none;
   }
 
-  header nav .nav-sections > ul > li > ul > li {
-    padding: 12px 16px;
+  header nav .nav-sections>ul>li:not(.nav-drop) a {
+    text-decoration: none;
+  }
+
+  header nav .nav-sections>ul>li>a:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 6px;
+    background: #00aeef;
+    /* KD changed 12-0502019 */
+    height: 3px;
+    width: 0%;
+    transform: translateY(4px);
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+  }
+
+  header nav .nav-sections>ul>li> a:hover, header nav .nav-sections>ul>li> a:hover:before {
+    width: 140%;
+    color: #00aeef;
   }
 
   .input-search {

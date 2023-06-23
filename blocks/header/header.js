@@ -118,11 +118,9 @@ export default async function decorate(block) {
       navSections.querySelectorAll(':scope > ul > li').forEach((navSection) => {
         if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
         navSection.addEventListener('click', () => {
-          if (isDesktop.matches) {
-            const expanded = navSection.getAttribute('aria-expanded') === 'true';
-            toggleAllNavSections(navSections);
-            navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-          }
+          const expanded = navSection.getAttribute('aria-expanded') === 'true';
+          toggleAllNavSections(navSections);
+          navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
         });
       });
     }
@@ -143,12 +141,6 @@ export default async function decorate(block) {
     nav.prepend(hamburger);
     nav.setAttribute('aria-expanded', 'false');
     toggleAllNavSections(navSections, false);
-    navSections.querySelectorAll('.nav-drop').forEach((item) => {
-      item.addEventListener('click', (e) => {
-        const expanded = e.target.getAttribute('aria-expanded') === 'true';
-        e.target.setAttribute('aria-expanded', !expanded);
-      });
-    });
 
     toggleMenu(nav, navSections, isDesktop.matches);
     // prevent mobile nav behavior on window resize
