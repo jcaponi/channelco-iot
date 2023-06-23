@@ -10,10 +10,10 @@ header nav {
   box-sizing: border-box;
   display: grid;
   grid-template:
-    'brand hamburger' var(--nav-height);
+    'brand hamburger' var(--mobile-nav-height);
   align-items: center;
   margin: auto;
-  height: var(--nav-height);
+  height: var(--mobile-nav-height);
   padding: 0 1rem;
   font-family: var(--body-font-family);
   background: #000;
@@ -35,6 +35,9 @@ header nav[aria-expanded="true"] {
 
 @media (min-width: 900px) {
   header nav {
+    height: var(--nav-height);
+    grid-template:
+    'brand hamburger' var(--nav-height);
     display: flex;
     justify-content: space-between;
   }
@@ -189,7 +192,7 @@ header nav .nav-sections > ul > li[aria-expanded="true"] > ul {
   display: block;
   position: absolute;
   min-width: 160px;
-  margin: 36px 0 0 50px;
+  margin: 42px 0 0 50px;
   background-color: var(--header-background-color);
   white-space: initial;
   border-top: 2px solid #00aeef;
