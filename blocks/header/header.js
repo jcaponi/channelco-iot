@@ -123,6 +123,12 @@ export default async function decorate(block) {
       });
     }
 
+    // search tool
+    const search = nav.querySelector('.nav-tools');
+    search.innerHTML = `
+      <input type="search" name="search" id="search" class="input-search" placeholder="Search">
+    `;
+
     // hamburger for mobile
     const hamburger = document.createElement('div');
     hamburger.classList.add('nav-hamburger');
