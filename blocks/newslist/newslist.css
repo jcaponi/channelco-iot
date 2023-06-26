@@ -1,7 +1,7 @@
 .newslist.block .newslist-container {
   background: #fff;
   border-radius: 5px;
-  margin: 20px;
+  margin: 20px 0;
   padding: 20px;
   border: 1px solid #707070;
 }
@@ -10,18 +10,28 @@
   margin-top: 20px;
 }
 
-.newslist.block .newslist-container .newslist-item-photo img {
-  padding: 5px 0 0;
-  box-shadow: 0 1px 3px #e1e3ef;
-}
-
 .newslist.block .newslist-container a {
   color: #000;
   font-size: 14px;
 }
 
-.newslist.block .newslist-container a:hover {
-  text-decoration: none;
+.newslist.block .newslist-container .resultslist-item a {
+  font-size: 12px;
+}
+
+.newslist.block .newslist-container .newslist-item a:hover,
+.newslist.block .newslist-container .resultslist-item a:hover {
+  text-decoration: underline;
+  color: var(--link-hover-color);
+}
+
+.newslist.block .newslist-container .newslist-item-photo img {
+  padding: 5px 0 0;
+  box-shadow: 0 1px 3px #e1e3ef;
+}
+
+.newslist.block .newslist-container .resultslist-item .resultslist-item-header a {
+  font-size: 1.15rem;
 }
 
 .newslist.block .newslist-container .newslist-item-content .newslist-item-header {
@@ -34,11 +44,22 @@
   font-weight: 600;
   display: block;
   border-bottom: 1px solid #000;
+  text-decoration: none;
+}
+
+.newslist.block .newslist-container .newslist-item-content .newslist-item-header a:hover,
+.newslist.block .newslist-container .resultslist-item .resultslist-item-header a:hover {
+  color: var(--link-hover-color);
 }
 
 .newslist.block .newslist-container .newslist-item-content {
   color: #707070;
   font-size: 14px;
+}
+
+.newslist.block .newslist-container .newslist-item-content .newslist-item-subheader {
+  line-height: 1.5;
+  margin-bottom: 1rem;
 }
 
 .newslist.block .newslist-container .newslist-item-content .newslist-item-main p {
@@ -49,6 +70,7 @@
 .newslist.block .newslist-container .newslist-item-content .newslist-item-footer {
   color: #000;
   font-size: 14px;
+  margin-bottom: 1rem;
 }
 
 .newslist.block .newslist-container h2 {
@@ -68,6 +90,7 @@
   text-decoration: underline;
   padding-bottom: 15px;
   font-weight: 600;
+  line-height: 1.5;
 }
 
 .newslist.block .newslist-container .resultslist-item .resultslist-item-content {
@@ -78,6 +101,7 @@
 .newslist.block .newslist-container .resultslist-item .resultslist-item-details {
   font-size: 12px;
   margin-bottom: 16px;
+  line-height: 21px;
 }
 
 .newslist.block .newslist-container .pagination {
