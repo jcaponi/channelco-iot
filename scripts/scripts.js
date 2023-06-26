@@ -133,7 +133,7 @@ function buildArticlePropsBlock(main) {
   if (hook) {
     hook.parentElement.classList.add('article-key-container');
     hook.parentElement.prepend(headerList);
-    hook.parentElement.append(articleKeyDiv);
+    hook.parentElement.append(articlePreface);
   }
 }
 
