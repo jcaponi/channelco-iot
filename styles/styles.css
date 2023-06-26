@@ -199,10 +199,6 @@ main input {
   color: var(--text-color);
 }
 
-main input:hover {
-  border: 1px solid var(--text-color);
-}
-
 main blockquote {
   font-style: italic;
   margin: 3rem;
