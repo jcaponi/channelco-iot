@@ -55,18 +55,29 @@ function filterByQuery(index, query) {
     const description = e.description.toLowerCase();
     return queryTokens.every((token) => {
       if (subtitle.includes(token)) {
-        e['matchedToken'] = `... ${subtitle} ...`;
+        e.matchedToken = `... ${subtitle} ...`;
         return true;
-      } else if (description.includes(token)) {
-        e['matchedToken'] = `... ${description} ...`;
+      }
+      if (description.includes(token)) {
+        e.matchedToken = `... ${description} ...`;
         return true;
-      } else if (title.includes(token)) {
-        e['matchedToken'] = `... ${title} ...`;
+      }
+      if (title.includes(token)) {
+        e.matchedToken = `... ${title} ...`;
         return true;
       }
       return false;
     });
   });
+}
+
+/**
+ * appends the given param to the exissting params of the url
+ */
+function addParam(name, value) {
+  const usp = new URLSearchParams(window.location.search);
+  usp.set(name, value);
+  return `${window.location.pathname}?${usp.toString()}`;
 }
 
 export default async function decorate(block) {
@@ -129,7 +140,7 @@ export default async function decorate(block) {
         <div class="search-resultslist-item-header">
           <a href="${e.path}">${e.title}</a>
         </div>
-        <div class="search-resultslist-item-content">${e.matchedToken || subtitle}</div>
+        <div class="search-resultslist-item-content">${e.matchedToken || e.subtitle}</div>
         <div class="search-resultslist-item-details">
           <a href="/users/${convertToKebabCase(e.author)}">${e.author}</a> - ${getHumanReadableDate(e.publisheddate)}
         </div>
@@ -179,8 +190,10 @@ export default async function decorate(block) {
 
   // add pagination information
   if (shortIndex.length > l || pageOffset > 0) {
-    const prev = pageOffset > 0 ? `<a href="?page=${parseInt(pageOffset, 10) - 1}">‹ previous</a>` : '';
-    const next = shortIndex.length > l ? `<a href="?page=${parseInt(pageOffset, 10) + 1}">next ›</a>` : '';
+    const prevUrl = addParam('page', parseInt(pageOffset, 10) - 1);
+    const nextUrl = addParam('page', parseInt(pageOffset, 10) + 1);
+    const prev = pageOffset > 0 ? `<a href="${prevUrl}">‹ previous</a>` : '';
+    const next = shortIndex.length > l ? `<a href="${nextUrl}">next ›</a>` : '';
     const paginationHtml = `
       <div class="pagination">
         ${prev}  <b>${parseInt(pageOffset, 10) + 1} of ${Math.ceil(shortIndex.length / 10)}</b> ${next}

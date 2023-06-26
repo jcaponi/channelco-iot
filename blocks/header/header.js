@@ -135,7 +135,7 @@ export default async function decorate(block) {
     searchInput.addEventListener('keydown', (e) => {
       if (e.code === 'Enter') {
         const query = searchInput.value;
-        location.href = `/search?q=${query}`;
+        window.location.href = `/search?q=${query}`;
       }
     });
 

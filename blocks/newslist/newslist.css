@@ -30,10 +30,12 @@
   padding: 5px 0 0;
   box-shadow: 0 1px 3px #e1e3ef;
 }
+
 .newslist.block .newslist-container .search-resultslist-item .search-resultslist-item-header a {
   text-decoration: underline;
   font-weight: 600;
 }
+
 .newslist.block .newslist-container .resultslist-item .resultslist-item-header a {
   font-size: 1.15rem;
 }
@@ -49,6 +51,10 @@
   display: block;
   border-bottom: 1px solid #000;
   text-decoration: none;
+}
+
+.newslist.block .newslist-container .search-resultslist-item .search-resultslist-item-details a {
+  font-size: 12px;
 }
 
 .newslist.block .newslist-container .newslist-item-content .newslist-item-header a:hover,
@@ -129,10 +135,6 @@
   margin-bottom: 16px;
   line-height: 1.5;
   padding-left: 1em;
-}
-
-.newslist.block .newslist-container .search-resultslist-item .search-resultslist-item-details a {
-  font-size: 12px;
 }
 
 .newslist.block .newslist-container .search-resultslist-item .search-resultslist-item-content {
