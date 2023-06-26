@@ -130,6 +130,14 @@ export default async function decorate(block) {
     search.innerHTML = `
       <input type="search" name="search" id="search" class="input-search" placeholder="Search">
     `;
+    // create event listener for search input on enter key
+    const searchInput = search.querySelector('input');
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.code === 'Enter') {
+        const query = searchInput.value;
+        location.href = `/search?q=${query}`;
+      }
+    });
 
     // hamburger for mobile
     const hamburger = document.createElement('div');

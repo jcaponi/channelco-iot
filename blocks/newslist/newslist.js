@@ -46,6 +46,29 @@ function convertToKebabCase(str) {
   return str.toLowerCase().replace(/\s+/g, '-');
 }
 
+function filterByQuery(index, query) {
+  if (!query) return index;
+  const queryTokens = query.split(' ');
+  return index.filter((e) => {
+    const title = e.title.toLowerCase();
+    const subtitle = e.subtitle.toLowerCase();
+    const description = e.description.toLowerCase();
+    return queryTokens.every((token) => {
+      if (subtitle.includes(token)) {
+        e['matchedToken'] = `... ${subtitle} ...`;
+        return true;
+      } else if (description.includes(token)) {
+        e['matchedToken'] = `... ${description} ...`;
+        return true;
+      } else if (title.includes(token)) {
+        e['matchedToken'] = `... ${title} ...`;
+        return true;
+      }
+      return false;
+    });
+  });
+}
+
 export default async function decorate(block) {
   const limit = 10;
   // get request parameter page as limit
@@ -53,10 +76,16 @@ export default async function decorate(block) {
   const pageOffset = parseInt(usp.get('page'), 10) || 0;
   const offset = pageOffset * 10;
   const l = offset + limit;
-  const filter = document.querySelector('.newslist.block').innerText;
+  let filter = document.querySelector('.newslist.block').innerText || '';
+  filter = filter.trim();
+  const isSearch = filter === 'query';
   let key;
   let value;
-  if (filter && filter.trim().length > 0) {
+  let shortIndex;
+  const index = await fetchIndex();
+  if (isSearch) {
+    shortIndex = filterByQuery(index, usp.get('q'));
+  } else if (filter.length > 0) {
     const filterTokens = filter.split(':');
     if (filterTokens.length !== 2) {
       block.innerHTML = `Invalid filter ${filter}`;
@@ -64,12 +93,27 @@ export default async function decorate(block) {
     }
     key = filterTokens[0].trim().toLowerCase();
     value = filterTokens[1].trim().toLowerCase();
+    shortIndex = index.filter((e) => (e[key].toLowerCase() === value));
+  } else {
+    shortIndex = index;
   }
-  const index = await fetchIndex();
-  const shortIndex = key && value ? index.filter((e) => (e[key].toLowerCase() === value)) : index;
   const newsListContainer = document.createElement('div');
   newsListContainer.classList.add('newslist-container');
-  if (key && value) {
+  if (isSearch) {
+    const searchHeader = document.createElement('div');
+    searchHeader.classList.add('search-header-container');
+    searchHeader.innerHTML = `
+      <h2>Search Results</h2>
+      <form action="/search" method="get" id="search-form">
+        <div class="search-container" >
+          <label for="edit-keys">Enter your keywords </label>
+          <input type="text" id="search-input" name="q" value="${usp.get('q')}" size="40" maxlength="255">
+        </div>
+        <input type="submit" value="Search">
+      </form>
+    `;
+    newsListContainer.append(searchHeader);
+  } else if (key && value) {
     const header = document.createElement('h2');
     header.innerText = value;
     newsListContainer.append(header);
@@ -79,7 +123,20 @@ export default async function decorate(block) {
   for (let i = offset; i < l && i < shortIndex.length; i += 1) {
     const e = shortIndex[i];
     let itemHtml;
-    if (key && value) {
+    if (isSearch) {
+      itemHtml = `
+      <div class="search-resultslist-item">
+        <div class="search-resultslist-item-header">
+          <a href="${e.path}">${e.title}</a>
+        </div>
+        <div class="search-resultslist-item-content">${e.matchedToken || subtitle}</div>
+        <div class="search-resultslist-item-details">
+          <a href="/users/${convertToKebabCase(e.author)}">${e.author}</a> - ${getHumanReadableDate(e.publisheddate)}
+        </div>
+      </div>
+
+      `;
+    } else if (key && value) {
       itemHtml = `
       <div class="resultslist-item">
         <div class="resultslist-item-header">

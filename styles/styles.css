@@ -189,17 +189,14 @@ button.secondary {
 }
 
 main input {
-  font-size: 1.25rem;
-  width: 100%;
+  font-size: 14px;
+  line-height: 21px;
   max-width: 50rem;
   display: block;
   margin-bottom: 1rem;
-  padding: 0.75rem 0.6rem;
-  border-radius: 0.25rem;
+  padding: 1px 2px;
   box-sizing: border-box;
-  border: 1px solid var(--text-color);
   color: var(--text-color);
-  background-color: var(--background-color);
 }
 
 main input:hover {
