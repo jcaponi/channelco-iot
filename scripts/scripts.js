@@ -59,7 +59,7 @@ function buildHeroBlock(main) {
   main.prepend(section);
 }
 
-// Build Article Props
+// Article
 // Retreive metadata value based on the key
 function getMetadata(key) {
   const metaElement = document.querySelector(`meta[name="${key}"]`);
@@ -94,12 +94,18 @@ function createListItem(key, value) {
   return listItem;
 }
 
-function createArticleKeyDiv(metadataKeys) {
-  const articleKeyDiv = document.createElement('div');
-  articleKeyDiv.classList.add('article-key');
+// Create article preface block
+function createArticlePreface() {
+  const articlePreface = document.createElement('div');
+  articlePreface.classList.add('article-preface');
+
+  const articleKeyTitle = document.createElement('h3');
+  articleKeyTitle.classList.add('article-key-title');
+  articleKeyTitle.textContent = 'Article Key';
 
   const articleKeyList = document.createElement('ul');
   articleKeyList.classList.add('article-key-list');
+  const metadataKeys = ['vertical', 'application', 'featuredsis', 'featured-tech'];
 
   metadataKeys.forEach((key) => {
     const value = getMetadata(key);
@@ -109,24 +115,24 @@ function createArticleKeyDiv(metadataKeys) {
     }
   });
 
-  articleKeyDiv.appendChild(articleKeyList);
-  return articleKeyDiv;
+  articlePreface.appendChild(articleKeyTitle);
+  articlePreface.appendChild(articleKeyList);
+
+  return articlePreface;
 }
 
-// Build the article properties block
 function buildArticlePropsBlock(main) {
   const rawPublishedDate = getMetadata('publisheddate');
   const publishedDate = formatPublishedDate(rawPublishedDate);
   const author = getMetadata('author');
-  const metadataKeys = ['vertical', 'application', 'featuredsis', 'featured-tech'];
 
   const headerList = createHeaderList(publishedDate, author);
-  const articleKeyDiv = createArticleKeyDiv(metadataKeys);
+  const articlePreface = createArticlePreface();
 
-  const hook = main.querySelector('picture');
-  if (hook) {
-    hook.parentElement.prepend(headerList);
-    hook.parentElement.append(articleKeyDiv);
+  const articleImage = main.querySelector('picture');
+  if (articleImage) {
+    articleImage.parentElement.prepend(headerList);
+    articleImage.parentElement.append(articlePreface);
   }
 }
 

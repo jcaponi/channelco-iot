@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
- :root {
+:root {
   /* colors */
   --link-color: #000;
   --link-hover-color: #ed1c24;
@@ -35,7 +35,7 @@
   --body-font-size-s: var(--body-font-size-default);
 
   /* heading sizes */
-  --heading-font-size-xl:48px;
+  --heading-font-size-xl: 48px;
   --heading-font-size-l: 20px;
   --heading-font-size-m: 16px;
   --heading-font-size-s: 15px;
@@ -78,7 +78,12 @@ header {
   }
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--heading-font-family);
   font-weight: 600;
   line-height: 1.25;
@@ -86,12 +91,18 @@ h1, h2, h3, h4, h5, h6 {
   scroll-margin: calc(var(--nav-height) + 1em);
 }
 
-h1 {font-size: var(--heading-font-size-xl);}
-h2 {font-size: var(--heading-font-size-l);}
-h3 {font-size: var(--heading-font-size-m);}
-h4 {font-size: var(--heading-font-size-s);}
-
-
+h1 {
+  font-size: var(--heading-font-size-xl);
+}
+h2 {
+  font-size: var(--heading-font-size-l);
+}
+h3 {
+  font-size: var(--heading-font-size-m);
+}
+h4 {
+  font-size: var(--heading-font-size-s);
+}
 
 p,
 dl,
@@ -257,38 +268,59 @@ main .section {
 }
 
 /* section metadata */
+/* stylelint-disable-next-line no-descending-specificity */
 main .section.highlight {
   background-color: var(--highlight-background-color);
 }
 
+/* Article styles */
 .header-list {
+  border-top: 1px solid #d7d7d7;
+  margin-top: 30px;
+  padding: 5px 0 15px;
   color: #555;
   font-size: 15px;
   font-style: italic;
-
+  outline: red dashed 1px;
 }
 
-.article-key {
-  margin-top: -200px;
-  padding-bottom: 200px;
-  border: 0;
-  font: inherit;
-  vertical-align: baseline;
-  text-align: right;
+.article-preface {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  border-bottom: 1px solid #d7d7d7;
+  outline: red dashed 1px;
+  margin-left: 200px;
 }
 
-
-.article-key-list {
-  display: inline-block;
-  text-align: left;
+.article-key-title {
+  color: #555;
+  font-size: 14px;
+  align-self: flex-end;
+  text-decoration: underline;
+  font-weight: 400;
+  padding-right: 334px;
 }
 
 .article-key-item {
   display: block;
 }
 
-/* Hero block styles */
+.default-content-wrapper picture {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  outline: red dashed 1px;
+}
 
+.default-content-wrapper {
+  border-radius: 5px;
+  margin: 20px 0 20px 20px;
+  padding: 20px;
+  border: 1px solid #707070;
+}
+
+/* Hero block styles */
 
 main .section.hero-header-container {
   padding: 64px 0;
@@ -339,7 +371,7 @@ main .section .hero-container {
 
 @media (max-width: 900px) {
   main .section.hero-header-container {
-    background-image: url('/images/hero-banner.jpeg');
+    background-image: url("/images/hero-banner.jpeg");
     background-size: cover;
     background-position: center center;
   }
