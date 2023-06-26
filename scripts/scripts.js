@@ -125,6 +125,7 @@ function buildArticlePropsBlock(main) {
 
   const hook = main.querySelector('picture');
   if (hook) {
+    hook.parentElement.classList.add('article-key-container');
     hook.parentElement.prepend(headerList);
     hook.parentElement.append(articleKeyDiv);
   }

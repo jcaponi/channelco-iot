@@ -278,28 +278,36 @@ main .section.highlight {
   background-color: var(--highlight-background-color);
 }
 
+p.article-key-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
 .header-list {
+  grid-column: 1 / 3;
   color: #555;
   font-size: 15px;
   font-style: italic;
+}
+
+p.article-key-container picture {
+  grid-column: 1 / 1;
+}
+
+p.article-key-container .article-key {
+  grid-column: 2 / 2;
+  display: flex;
 
 }
 
-.article-key {
-  margin-top: -200px;
-  padding-bottom: 200px;
-  border: 0;
-  font: inherit;
-  vertical-align: baseline;
-  text-align: right;
-}
-
-.article-key-list {
-  display: inline-block;
+p.article-key-container .article-key-list {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
   text-align: left;
 }
 
-.article-key-item {
+p.article-key-container .article-key-item {
   display: block;
 }
 
