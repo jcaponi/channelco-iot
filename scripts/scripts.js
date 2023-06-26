@@ -129,10 +129,11 @@ function buildArticlePropsBlock(main) {
   const headerList = createHeaderList(publishedDate, author);
   const articlePreface = createArticlePreface();
 
-  const articleImage = main.querySelector('picture');
-  if (articleImage) {
-    articleImage.parentElement.prepend(headerList);
-    articleImage.parentElement.append(articlePreface);
+  const hook = main.querySelector('picture');
+  if (hook) {
+    hook.parentElement.classList.add('article-key-container');
+    hook.parentElement.prepend(headerList);
+    hook.parentElement.append(articleKeyDiv);
   }
 }
 
@@ -181,12 +182,27 @@ async function loadEager(doc) {
 }
 
 /**
+ * Sets the content container based on the available elements, which is required for styling.
+ * @param {Element} the main element
+ */
+function setContentContainer(main) {
+  // this is the container that will hold the main page content and
+  // aside (which will be loaded in delayed)
+  const container = main.querySelector('.newslist-container') || main.querySelector('.hero-header-container+div.section');
+  if (container) {
+    container.classList.add('content-container');
+  }
+}
+
+/**
  * Loads everything that doesn't need to be delayed.
  * @param {Element} doc The container element
  */
 async function loadLazy(doc) {
   const main = doc.querySelector('main');
   await loadBlocks(main);
+  // set contnet container
+  setContentContainer(main);
 
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
