@@ -14,6 +14,20 @@ function replaceEmptyValues(data) {
   return data;
 }
 
+function skipInternalPaths(jsonData) {
+  const internalPaths = ['/search', '/'];
+  const regexp = [/drafts\/.*/];
+  return jsonData.filter((row) => {
+    if (internalPaths.includes(row.path)) {
+      return false;
+    }
+    if (regexp.some((r) => r.test(row.path))) {
+      return false;
+    }
+    return true;
+  });
+}
+
 async function fetchIndex(indexURL = '/query-index.json') {
   if (window.queryIndex && window.queryIndex[indexURL]) {
     return window.queryIndex[indexURL];
@@ -22,9 +36,10 @@ async function fetchIndex(indexURL = '/query-index.json') {
     const resp = await fetch(indexURL);
     const json = await resp.json();
     replaceEmptyValues(json.data);
+    const queryIndex = skipInternalPaths(json.data);
     window.queryIndex = window.queryIndex || {};
-    window.queryIndex[indexURL] = json.data;
-    return json.data;
+    window.queryIndex[indexURL] = queryIndex;
+    return queryIndex;
   } catch (e) {
     // eslint-disable-next-line no-console
     console.log(`error while fetching ${indexURL}`, e);
