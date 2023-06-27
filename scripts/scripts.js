@@ -83,14 +83,27 @@ function formatPublishedDate(rawDate) {
 function createHeaderList(publishedDate, author) {
   const headerList = document.createElement('div');
   headerList.classList.add('header-list');
-  headerList.innerHTML = `${publishedDate} / Author: ${author}`;
+  const trimmedAuthor = author.trim().toLowerCase().replace(' ', '-');
+  headerList.innerHTML = `${publishedDate} / Author: <a href="/authors/${trimmedAuthor}">${author}</a>`;
   return headerList;
 }
 
 function createListItem(key, value) {
   const listItem = document.createElement('li');
   listItem.classList.add('article-key-item');
-  listItem.textContent = `${capitalizeFirstLetter(key)}: ${value}`;
+  const values = value.split(',');
+  if (values.length > 1) {
+    listItem.innerHTML += `${capitalizeFirstLetter(key)}: `;
+    values.forEach((val, i) => {
+      const trimmedVal = val.trim();
+      listItem.innerHTML += `<a href="/${key}?id=${trimmedVal}" title="${trimmedVal}">${trimmedVal}</a>`;
+      if (i !== (values.length - 1)) {
+        listItem.innerHTML += ', ';
+      }
+    });
+  } else {
+    listItem.innerHTML = `${capitalizeFirstLetter(key)}: <a href="/${key}?id=${value.trim()}" title="">${value.trim()}</a>`;
+  }
   return listItem;
 }
 
