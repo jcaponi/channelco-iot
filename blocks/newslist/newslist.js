@@ -1,3 +1,5 @@
+import { readBlockConfig } from '../../scripts/lib-franklin.js';
+
 /**
  * Traverse the whole json structure in data and replace '0' with empty string
  * @param {*} data
@@ -87,7 +89,7 @@ function filterByQuery(index, query) {
 }
 
 /**
- * appends the given param to the exissting params of the url
+ * appends the given param to the existing params of the url
  */
 function addParam(name, value) {
   const usp = new URLSearchParams(window.location.search);
@@ -102,26 +104,19 @@ export default async function decorate(block) {
   const pageOffset = parseInt(usp.get('page'), 10) || 0;
   const offset = pageOffset * 10;
   const l = offset + limit;
-  let filter = document.querySelector('.newslist.block').innerText || '';
-  filter = filter.trim();
-  const isSearch = filter === 'query';
-  let key;
-  let value;
-  let shortIndex;
+  const cfg = readBlockConfig(block);
+  const key = Object.keys(cfg)[0];
+  let value = Object.values(cfg)[0];
+  const isSearch = key === 'query';
   const index = await fetchIndex();
+  let shortIndex = index;
   if (isSearch) {
     shortIndex = filterByQuery(index, usp.get('q'));
-  } else if (filter.length > 0) {
-    const filterTokens = filter.split(':');
-    if (filterTokens.length !== 2) {
-      block.innerHTML = `Invalid filter ${filter}`;
-      return;
+  } else if (key) {
+    if (!value && usp.get('id')) {
+      value = usp.get('id').toLowerCase();
     }
-    key = filterTokens[0].trim().toLowerCase();
-    value = filterTokens[1].trim().toLowerCase();
-    shortIndex = index.filter((e) => (e[key].toLowerCase() === value));
-  } else {
-    shortIndex = index;
+    shortIndex = index.filter((e) => (e[key.trim()].toLowerCase() === value.trim().toLowerCase()));
   }
   const newsListContainer = document.createElement('div');
   newsListContainer.classList.add('newslist-container');
