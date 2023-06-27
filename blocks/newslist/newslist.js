@@ -110,17 +110,12 @@ export default async function decorate(block) {
   const isSearch = key === 'query';
   const index = await fetchIndex();
   let shortIndex = index;
-  if (isSearch) {
-    shortIndex = filterByQuery(index, usp.get('q'));
-  } else if (key) {
-    if (!value && usp.get('id')) {
-      value = usp.get('id').toLowerCase();
-    }
-    shortIndex = index.filter((e) => (e[key.trim()].toLowerCase() === value.trim().toLowerCase()));
-  }
   const newsListContainer = document.createElement('div');
   newsListContainer.classList.add('newslist-container');
+
   if (isSearch) {
+    const query = usp.get('q') || '';
+    shortIndex = filterByQuery(index, query);
     const searchHeader = document.createElement('div');
     searchHeader.classList.add('search-header-container');
     searchHeader.innerHTML = `
@@ -128,19 +123,29 @@ export default async function decorate(block) {
       <form action="/search" method="get" id="search-form">
         <div class="search-container" >
           <label for="edit-keys">Enter your keywords </label>
-          <input type="text" id="search-input" name="q" value="${usp.get('q')}" size="40" maxlength="255">
+          <input type="text" id="search-input" name="q" value="${query}" size="40" maxlength="255">
         </div>
         <input type="submit" value="Search">
       </form>
     `;
     newsListContainer.append(searchHeader);
-  } else if (key && value) {
+  } else if (key) {
+    if (!value && usp.get('id')) {
+      value = usp.get('id').toLowerCase();
+    } else if (!value && !usp.get('id')) {
+      block.remove();
+      return;
+    }
+    shortIndex = index.filter((e) => (e[key.trim()].toLowerCase() === value.trim().toLowerCase()));
     const header = document.createElement('h2');
     header.innerText = value;
     newsListContainer.append(header);
+  } else {
+    block.remove();
+    return;
   }
-  const range = document.createRange();
 
+  const range = document.createRange();
   for (let i = offset; i < l && i < shortIndex.length; i += 1) {
     const e = shortIndex[i];
     let itemHtml;
