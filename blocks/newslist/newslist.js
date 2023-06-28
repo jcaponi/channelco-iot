@@ -1,3 +1,5 @@
+import { readBlockConfig } from '../../scripts/lib-franklin.js';
+
 /**
  * Traverse the whole json structure in data and replace '0' with empty string
  * @param {*} data
@@ -87,7 +89,7 @@ function filterByQuery(index, query) {
 }
 
 /**
- * appends the given param to the exissting params of the url
+ * appends the given param to the existing params of the url
  */
 function addParam(name, value) {
   const usp = new URLSearchParams(window.location.search);
@@ -102,30 +104,18 @@ export default async function decorate(block) {
   const pageOffset = parseInt(usp.get('page'), 10) || 0;
   const offset = pageOffset * 10;
   const l = offset + limit;
-  let filter = document.querySelector('.newslist.block').innerText || '';
-  filter = filter.trim();
-  const isSearch = filter === 'query';
-  let key;
-  let value;
-  let shortIndex;
+  const cfg = readBlockConfig(block);
+  const key = Object.keys(cfg)[0];
+  let value = Object.values(cfg)[0];
+  const isSearch = key === 'query';
   const index = await fetchIndex();
-  if (isSearch) {
-    shortIndex = filterByQuery(index, usp.get('q'));
-  } else if (filter.length > 0) {
-    const filterTokens = filter.split(':');
-    if (filterTokens.length !== 2) {
-      block.innerHTML = `Invalid filter ${filter}`;
-      return;
-    }
-    key = filterTokens[0].trim().toLowerCase();
-    value = filterTokens[1].trim().toLowerCase();
-    shortIndex = index.filter((e) => (e[key].toLowerCase() === value));
-  } else {
-    shortIndex = index;
-  }
+  let shortIndex = index;
   const newsListContainer = document.createElement('div');
   newsListContainer.classList.add('newslist-container');
+
   if (isSearch) {
+    const query = usp.get('q') || '';
+    shortIndex = filterByQuery(index, query);
     const searchHeader = document.createElement('div');
     searchHeader.classList.add('search-header-container');
     searchHeader.innerHTML = `
@@ -133,19 +123,33 @@ export default async function decorate(block) {
       <form action="/search" method="get" id="search-form">
         <div class="search-container" >
           <label for="edit-keys">Enter your keywords </label>
-          <input type="text" id="search-input" name="q" value="${usp.get('q')}" size="40" maxlength="255">
+          <input type="text" id="search-input" name="q" value="${query}" size="40" maxlength="255">
         </div>
         <input type="submit" value="Search">
       </form>
     `;
     newsListContainer.append(searchHeader);
-  } else if (key && value) {
+  } else if (key) {
+    if (!value && usp.get('id')) {
+      value = usp.get('id').toLowerCase();
+    } else if (!value && !usp.get('id')) {
+      block.remove();
+      return;
+    }
+    if (key === 'featured-tech') {
+      shortIndex = index.filter((e) => (e[key.trim()].toLowerCase()
+        .includes(value.trim().toLowerCase())));
+    } else {
+      shortIndex = index.filter((e) => (e[key.trim()].toLowerCase()
+        === value.trim().toLowerCase()));
+    }
+
     const header = document.createElement('h2');
     header.innerText = value;
     newsListContainer.append(header);
   }
-  const range = document.createRange();
 
+  const range = document.createRange();
   for (let i = offset; i < l && i < shortIndex.length; i += 1) {
     const e = shortIndex[i];
     let itemHtml;

@@ -81,11 +81,14 @@ function formatPublishedDate(rawDate) {
 }
 
 function createHeaderList(publishedDate, author) {
-  const headerList = document.createElement('div');
-  headerList.classList.add('header-list');
-  const trimmedAuthor = author.trim().toLowerCase().replace(' ', '-');
-  headerList.innerHTML = `${publishedDate} / Author: <a href="/authors/${trimmedAuthor}">${author}</a>`;
-  return headerList;
+  if (publishedDate && author) {
+    const headerList = document.createElement('div');
+    headerList.classList.add('header-list');
+    const trimmedAuthor = author.trim().toLowerCase().replace(' ', '-');
+    headerList.innerHTML = `${publishedDate} / Author: <a href="/users/${trimmedAuthor}">${author}</a>`;
+    return headerList;
+  }
+  return null;
 }
 
 function createListItem(key, value) {
@@ -118,7 +121,7 @@ function createArticlePreface() {
 
   const articleKeyList = document.createElement('ul');
   articleKeyList.classList.add('article-key-list');
-  const metadataKeys = ['vertical', 'application', 'featuredsis', 'featured-tech'];
+  const metadataKeys = ['vertical', 'application', 'featured-sis', 'featured-tech'];
 
   metadataKeys.forEach((key) => {
     const value = getMetadata(key);
@@ -128,25 +131,28 @@ function createArticlePreface() {
     }
   });
 
-  articlePreface.appendChild(articleKeyTitle);
-  articlePreface.appendChild(articleKeyList);
+  if (articleKeyList.children) {
+    articlePreface.appendChild(articleKeyTitle);
+    articlePreface.appendChild(articleKeyList);
+  }
 
   return articlePreface;
 }
 
 function buildArticlePropsBlock(main) {
-  const rawPublishedDate = getMetadata('publisheddate');
-  const publishedDate = formatPublishedDate(rawPublishedDate);
-  const author = getMetadata('author');
-
-  const headerList = createHeaderList(publishedDate, author);
-  const articlePreface = createArticlePreface();
-
-  const hook = main.querySelector('picture');
-  if (hook) {
-    hook.parentElement.classList.add('article-key-container');
-    hook.parentElement.prepend(headerList);
-    hook.parentElement.append(articlePreface);
+  const template = getMetadata('template');
+  if (template === 'Article') {
+    const rawPublishedDate = getMetadata('publisheddate');
+    const publishedDate = formatPublishedDate(rawPublishedDate);
+    const author = getMetadata('author');
+    const headerList = createHeaderList(publishedDate, author);
+    const articlePreface = createArticlePreface();
+    const hook = main.querySelector('picture');
+    if (hook) {
+      hook.parentElement.classList.add('article-key-container');
+      if (headerList) hook.parentElement.prepend(headerList);
+      hook.parentElement.append(articlePreface);
+    }
   }
 }
 
