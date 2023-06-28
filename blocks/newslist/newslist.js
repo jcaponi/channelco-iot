@@ -136,7 +136,14 @@ export default async function decorate(block) {
       block.remove();
       return;
     }
-    shortIndex = index.filter((e) => (e[key.trim()].toLowerCase() === value.trim().toLowerCase()));
+    if (key === 'featured-tech') {
+      shortIndex = index.filter((e) => (e[key.trim()].toLowerCase()
+        .includes(value.trim().toLowerCase())));
+    } else {
+      shortIndex = index.filter((e) => (e[key.trim()].toLowerCase()
+        === value.trim().toLowerCase()));
+    }
+
     const header = document.createElement('h2');
     header.innerText = value;
     newsListContainer.append(header);
