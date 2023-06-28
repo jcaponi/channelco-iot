@@ -140,9 +140,6 @@ export default async function decorate(block) {
     const header = document.createElement('h2');
     header.innerText = value;
     newsListContainer.append(header);
-  } else {
-    block.remove();
-    return;
   }
 
   const range = document.createRange();
