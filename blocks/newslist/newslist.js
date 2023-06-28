@@ -174,7 +174,7 @@ export default async function decorate(block) {
         </div>
         <div class="resultslist-item-content">${e.subtitle}</div>
         <div class="resultslist-item-details">
-          Author: <a href="/users/${convertToKebabCase(e.author)}">${e.author}</a> ${getHumanReadableDate(e.publisheddate)} &nbsp;&nbsp; | &nbsp; Vertical: <b> <a href="/vertical/${e.vertical}">${e.vertical}</a></b>
+          Author: <a href="/users/${convertToKebabCase(e.author)}">${e.author}</a> ${getHumanReadableDate(e.publisheddate)} &nbsp;&nbsp; | &nbsp; Vertical: <b> <a href="/vertical?id=${e.vertical}">${e.vertical}</a></b>
         </div>
       </div>
     `;
@@ -195,9 +195,9 @@ export default async function decorate(block) {
               <p>${e.subtitle}</p>
             </div>
             <div class="newslist-item-footer">
-              Category: <a href="/application/${e.application}">${e.application}</a> <br>
-              Vertical: <a href="/vertical/${e.vertical}">${e.vertical}</a> <br>
-              Partners: <a href="/partner/${e['featured-sis']}">${e['featured-sis']}</a> <br>
+              Category: <a href="/application?id=${e.application}">${e.application}</a> <br>
+              Vertical: <a href="/vertical?id=${e.vertical}">${e.vertical}</a> <br>
+              Partners: <a href="/featured-sis?id=${e['featured-sis']}">${e['featured-sis']}</a> <br>
             </div>
           </div>
         </div>
