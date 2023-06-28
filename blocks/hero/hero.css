@@ -58,10 +58,6 @@ main .section .hero-container {
 }
 
 @media (min-width: 900px) {
-  .hero img {
-    width: 100%;
-  }
-
   main .section.hero-container h1 {
     font-size: 48px;
   }
