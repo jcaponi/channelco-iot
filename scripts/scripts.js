@@ -1,5 +1,6 @@
 import {
   sampleRUM,
+  buildBlock,
   loadHeader,
   loadFooter,
   decorateButtons,
@@ -42,20 +43,8 @@ export async function lookupPages(pathnames) {
  * @param {Element} main The container element
  */
 function buildHeroBlock(main) {
-  const heroHtml = `
-    <div class="hero-header">
-      <div class="hero-header-image">
-        <img src = '/images/hero-banner.jpeg'>
-      </div>
-      <div class="hero-container">
-        <h1 class="hero-header-title">
-          <a href="/" class="hero-header-title-link">IoT Integrator</a>
-        </h1>
-        <h2 class="hero-header-subtitle">Powering the business behind the Internet of Things</h2>
-    </div>
-  `;
   const section = document.createElement('div');
-  section.innerHTML = heroHtml;
+  section.append(buildBlock('hero', { elems: [] }));
   main.prepend(section);
 }
 
