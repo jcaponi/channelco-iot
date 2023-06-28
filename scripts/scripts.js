@@ -121,7 +121,7 @@ function createArticlePreface() {
 
   const articleKeyList = document.createElement('ul');
   articleKeyList.classList.add('article-key-list');
-  const metadataKeys = ['vertical', 'application', 'featuredsis', 'featured-tech'];
+  const metadataKeys = ['vertical', 'application', 'featured-sis', 'featured-tech'];
 
   metadataKeys.forEach((key) => {
     const value = getMetadata(key);
