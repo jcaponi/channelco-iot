@@ -452,6 +452,12 @@ div.aside-ad .ad-title  {
   text-align: center;
 }
 
+body noscript.gtm-iframe {
+  height: 0;
+  width: 0;
+  display: none;
+  visibility: hidden;
+}
 
 @media (max-width: 900px) {
   main .section.hero-header-container {
