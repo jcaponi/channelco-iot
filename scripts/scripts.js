@@ -13,7 +13,7 @@ import {
   loadCSS,
 } from './lib-franklin.js';
 
-const LCP_BLOCKS = ['hero','newslist']; // add your LCP blocks to the list
+const LCP_BLOCKS = ['hero', 'newslist']; // add your LCP blocks to the list
 
 /**
  * Gets details about pages that are indexed

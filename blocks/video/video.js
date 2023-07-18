@@ -6,7 +6,7 @@ export default function decorate(block) {
     const html = `
       <div class="video-container">
         <div>
-            <iframe allow="encrypted-media" allowfullscreen="" src="${config.url}"></iframe>
+            <iframe loading="lazy" allow="encrypted-media" allowfullscreen="" src="${config.url}"></iframe>
         </div>
       </div>
     `;

@@ -12,6 +12,13 @@
     border-top: 1px solid #ed1c24;
 }
 
+.resources:not(.list) a {
+    font-size: .75rem;
+    font-weight: 600;
+    line-height: 1;
+    padding: 10px 0;
+}
+
 .resources.list a:hover {
     text-decoration: none;
 }
@@ -46,13 +53,6 @@
 .resources:not(.list) {
     background-color: var(--main-background-color);
     margin-top: 20px;
-}
-
-.resources:not(.list) a {
-    font-size: .75rem;
-    font-weight: 600;
-    line-height: 1;
-    padding: 10px 0;
 }
 
 /* Tablet styles */
