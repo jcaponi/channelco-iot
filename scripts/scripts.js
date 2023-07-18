@@ -13,7 +13,7 @@ import {
   loadCSS,
 } from './lib-franklin.js';
 
-const LCP_BLOCKS = ['newslist']; // add your LCP blocks to the list
+const LCP_BLOCKS = ['hero','newslist']; // add your LCP blocks to the list
 
 /**
  * Gets details about pages that are indexed
@@ -185,6 +185,7 @@ function buildArticlePropsBlock(main) {
 function buildAutoBlocks(main) {
   try {
     buildHeroBlock(main);
+    buildSponsorsBlock(main);
     buildArticlePropsBlock(main);
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -263,7 +264,6 @@ function setContentContainer(main) {
  */
 async function loadLazy(doc) {
   const main = doc.querySelector('main');
-  buildSponsorsBlock(main);
   await loadBlocks(main);
   // set contnet container
   setContentContainer(main);
