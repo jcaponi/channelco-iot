@@ -12,6 +12,10 @@
     border-top: 1px solid #ed1c24;
 }
 
+.resources.list a:hover {
+    text-decoration: none;
+}
+
 .resources.list .link-container {
     border-bottom: 1px solid #000;
     font-size: 14px;
