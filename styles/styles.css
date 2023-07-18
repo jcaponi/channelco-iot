@@ -419,3 +419,38 @@ body noscript.gtm-iframe {
   visibility: hidden;
 }
 
+/* sponsor section styles */
+.section .sponsor-container {
+  max-width: 1280px;
+  margin: 20px auto 0;
+  border-bottom: 7px solid #d7d7d7;
+  padding: 5px 5px 20px 0px;
+  box-sizing: border-box;
+}
+.section.sponsor img {
+  height: 75px;
+  max-width: 75px;
+  margin-left: 20px;
+  vertical-align: middle;
+}
+
+.section.sponsor h3 {
+  float: right;
+  margin-top: -50px;
+  color: #d7d7d7;
+  font-size: 36px;
+  font-weight: normal;
+  padding: 0 20px;
+}
+
+.section.sponsor h4 {
+  font-size: 18px;
+  padding: 20px 20px 0;
+}
+
+@media (max-width: 900px) {
+  .section.sponsor h3 {
+    margin-top: 0;
+    float: none;
+  }
+}

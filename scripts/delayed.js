@@ -27,6 +27,8 @@ function loadScript(url, attrs, body) {
 
 // add more delayed functionality here
 function buildTopAd(main) {
+  // no top ad for sponsored pages
+  if (window.location.pathname.includes('/content/')) return;
   const topAdHTML = `
   <div class="top-ad">
     <span class="ad-title">Advertisement</span> <br />
