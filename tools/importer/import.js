@@ -52,7 +52,7 @@ const createMetadataBlock = (main, document, url) => {
   }
 
   // sponsor header
-  const pathname = new URL(url).pathname;
+  const { pathname } = new URL(url);
   if (pathname.includes('/content/')) {
     meta.sponsor = 'intel';
   }
@@ -90,7 +90,7 @@ function createVideoBlock(main) {
 }
 
 export default {
-  transformDOM: ({
+  transform: ({
     // eslint-disable-next-line no-unused-vars
     document,
     url,
@@ -127,6 +127,11 @@ export default {
     createMetadataBlock(main, document, url);
 
     // main page import - "element" is provided, i.e. a docx will be created
-    return main;
+    results.push({
+      element: main,
+      path: new URL(url).pathname,
+    });
+
+    return results;
   },
 };

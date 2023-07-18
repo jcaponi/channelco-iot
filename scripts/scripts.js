@@ -48,6 +48,16 @@ function buildHeroBlock(main) {
   main.prepend(section);
 }
 
+// Article
+// Retreive metadata value based on the key
+function getMetadata(key) {
+  const metaElement = document.querySelector(`meta[name="${key}"]`);
+  if (metaElement) {
+    return metaElement.getAttribute('content');
+  }
+  return '';
+}
+
 /**
  * Builds sponsors block and appends to main in a new section.
  */
@@ -77,18 +87,7 @@ async function buildSponsorsBlock(main) {
   sponsorSection.append(sponsorContainer);
   const heroContainer = main.querySelector('.hero-container');
   const parentElement = heroContainer.parentNode;
-  console.log('inteserting after ', heroContainer);
   parentElement.insertBefore(sponsorSection, heroContainer.nextSibling);
-}
-
-// Article
-// Retreive metadata value based on the key
-function getMetadata(key) {
-  const metaElement = document.querySelector(`meta[name="${key}"]`);
-  if (metaElement) {
-    return metaElement.getAttribute('content');
-  }
-  return '';
 }
 
 function capitalizeFirstLetter(str) {
