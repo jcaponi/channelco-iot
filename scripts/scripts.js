@@ -185,7 +185,6 @@ function buildArticlePropsBlock(main) {
 function buildAutoBlocks(main) {
   try {
     buildHeroBlock(main);
-    buildSponsorsBlock(main);
     buildArticlePropsBlock(main);
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -264,6 +263,7 @@ function setContentContainer(main) {
  */
 async function loadLazy(doc) {
   const main = doc.querySelector('main');
+  buildSponsorsBlock(main);
   await loadBlocks(main);
   // set contnet container
   setContentContainer(main);
