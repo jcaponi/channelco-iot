@@ -76,16 +76,16 @@ const createMetadataBlock = (main, document, url) => {
   return meta;
 };
 
-function createVideoBlock(main) {
+function createVideoBlock(main, document) {
   const embeddedVideos = main.querySelectorAll('iframe[src^="https://players.brightcove.net"]');
   embeddedVideos.forEach((video) => {
     const videoUrl = video.src;
     const cells = [
       ['Video'],
-      [videoUrl],
+      ['url', videoUrl],
     ];
     const table = WebImporter.DOMUtils.createTable(cells, document);
-    main.append(table);
+    video.replaceWith(table);
   });
 }
 
@@ -116,7 +116,7 @@ export default {
     if (rightNav) rightNav.remove();
 
     // create video block for embedded videos
-    createVideoBlock(main);
+    createVideoBlock(main, document);
 
     // Remove all iframes
     main.querySelectorAll('iframe').forEach((el) => el.remove());
