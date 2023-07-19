@@ -13,7 +13,7 @@ import {
   loadCSS,
 } from './lib-franklin.js';
 
-const LCP_BLOCKS = ['newslist']; // add your LCP blocks to the list
+const LCP_BLOCKS = ['hero', 'newslist']; // add your LCP blocks to the list
 
 /**
  * Gets details about pages that are indexed
@@ -56,6 +56,38 @@ function getMetadata(key) {
     return metaElement.getAttribute('content');
   }
   return '';
+}
+
+/**
+ * Builds sponsors block and appends to main in a new section.
+ */
+async function buildSponsorsBlock(main) {
+  const sponsor = getMetadata('sponsor');
+  if (!sponsor) return;
+  const sponsorFragmentUrl = `/sponsor/${sponsor}.plain.html`;
+  const resp = await fetch(sponsorFragmentUrl);
+  if (!resp.ok) return;
+  // read html from the response
+  const sponsorFragmentHtml = await resp.text();
+  const container = document.createElement('div');
+  container.innerHTML = sponsorFragmentHtml;
+  const title = container.querySelector('h3');
+  const subtitle = container.querySelector('h4');
+  const picture = container.querySelector('picture');
+  const url = container.querySelector('a');
+  url.innerText = '';
+  const sponsorSection = document.createElement('div');
+  sponsorSection.classList.add('section', 'sponsor');
+  const sponsorContainer = document.createElement('div');
+  sponsorContainer.classList.add('sponsor-container');
+  url.append(picture);
+  subtitle.append(url);
+  sponsorContainer.append(subtitle);
+  sponsorContainer.append(title);
+  sponsorSection.append(sponsorContainer);
+  const heroContainer = main.querySelector('.hero-container');
+  const parentElement = heroContainer.parentNode;
+  parentElement.insertBefore(sponsorSection, heroContainer.nextSibling);
 }
 
 function capitalizeFirstLetter(str) {
@@ -120,7 +152,7 @@ function createArticlePreface() {
     }
   });
 
-  if (articleKeyList.children) {
+  if (articleKeyList.children && articleKeyList.children.length > 0) {
     articlePreface.appendChild(articleKeyTitle);
     articlePreface.appendChild(articleKeyList);
   }
@@ -153,6 +185,7 @@ function buildArticlePropsBlock(main) {
 function buildAutoBlocks(main) {
   try {
     buildHeroBlock(main);
+    buildSponsorsBlock(main);
     buildArticlePropsBlock(main);
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -196,7 +229,7 @@ async function loadEager(doc) {
 function setContentContainer(main) {
   // this is the container that will hold the main page content and
   // aside (which will be loaded in delayed)
-  const skipList = ['hero-container', 'page-title'];
+  const skipList = ['hero-container', 'page-title', 'sponsor'];
   let container = main.querySelector('.newslist-container');
   if (!container) {
     const allSections = main.querySelectorAll('div.section');

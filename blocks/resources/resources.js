@@ -22,10 +22,13 @@ async function createCard(row, styles) {
   const content = document.createElement('div');
   // Create and add the title link and description to card content and card
   const link = document.createElement('a');
+  const linkContainer = document.createElement('div');
+  linkContainer.classList.add('link-container');
+  linkContainer.append(link);
   link.href = row.path;
-  if (row.title && row.title !== '0') link.innerHTML += `<h3>${row.title}</h3>`;
-  content.append(link);
-  if (row.description && row.description !== '0') content.innerHTML += `<div class="description"><hr /><p>${row.description}</p></div>`;
+  if (row.title && row.title !== '0') link.innerHTML += `${row.title}`;
+  content.append(linkContainer);
+  if (row.description && row.description !== '0') content.innerHTML += `<div class="description"><p>${row.description}</p></div>`;
   card.append(content);
   return (card);
 }

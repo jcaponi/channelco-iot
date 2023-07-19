@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const createMetadataBlock = (main, document) => {
+const createMetadataBlock = (main, document, url) => {
   const meta = {};
   // add the template
   meta.Template = 'Article';
@@ -51,6 +51,12 @@ const createMetadataBlock = (main, document) => {
     }
   }
 
+  // sponsor header
+  const { pathname } = new URL(url);
+  if (pathname.includes('/content/')) {
+    meta.sponsor = 'intel';
+  }
+
   // find the <meta property="og:image"> element
   // const img = document.querySelector('[property="og:image"]');
   // if (img) {
@@ -70,6 +76,19 @@ const createMetadataBlock = (main, document) => {
   return meta;
 };
 
+function createVideoBlock(main, document) {
+  const embeddedVideos = main.querySelectorAll('iframe[src^="https://players.brightcove.net"]');
+  embeddedVideos.forEach((video) => {
+    const videoUrl = video.src;
+    const cells = [
+      ['Video'],
+      ['url', videoUrl],
+    ];
+    const table = WebImporter.DOMUtils.createTable(cells, document);
+    video.replaceWith(table);
+  });
+}
+
 export default {
   transform: ({
     // eslint-disable-next-line no-unused-vars
@@ -85,6 +104,8 @@ export default {
     if (nav) nav.remove();
     const header = main.querySelector('div.wrap header');
     if (header) header.remove();
+    const mainHeader = main.querySelector('main header.main-header');
+    if (mainHeader) mainHeader.remove();
     const skipLinkWrapper = main.querySelector('p.skip-link__wrapper');
     if (skipLinkWrapper) skipLinkWrapper.remove();
     const mainAd = main.querySelector('article main .main-content .row div.tmsads');
@@ -93,13 +114,17 @@ export default {
     }
     const rightNav = main.querySelector('article main .main-content .row aside');
     if (rightNav) rightNav.remove();
+
+    // create video block for embedded videos
+    createVideoBlock(main, document);
+
     // Remove all iframes
     main.querySelectorAll('iframe').forEach((el) => el.remove());
     // Remove Footer
     const footer = main.querySelector('footer');
     if (footer) footer.remove();
 
-    createMetadataBlock(main, document);
+    createMetadataBlock(main, document, url);
 
     // main page import - "element" is provided, i.e. a docx will be created
     results.push({
