@@ -160,10 +160,6 @@ header.aside-header {
 }
 
 @media (min-width: 900px) {
-    main .aside.block {
-        max-width: 350px;
-    }
-
     .vjs-playlist {
         max-width: 300px;
     }

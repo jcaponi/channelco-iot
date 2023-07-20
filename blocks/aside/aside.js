@@ -43,7 +43,7 @@ export default function decorate(block) {
       <h3 class="aside-title">Tune in to our Podcast</h3>
     </header>
     <div id="" class="aside-block">
-      <iframe height="700px" width="350px" frameborder="no" scrolling="no" seamless src="https://player.simplecast.com/23077a53-b41d-4595-9e62-cba9188ac2a9?dark=false&show=true"></iframe>
+      <iframe height="700px" width="340px" frameborder="no" scrolling="no" seamless src="https://player.simplecast.com/23077a53-b41d-4595-9e62-cba9188ac2a9?dark=false&show=true"></iframe>
     </div>
   </div>
   `;

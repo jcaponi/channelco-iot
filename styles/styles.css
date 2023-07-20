@@ -278,16 +278,18 @@ main .section.content-container > div:first-child {
   }
 
   main .section.content-container > div:first-child {
-    width: 66.6666%;
+    flex: 0 0 calc(100% - 365px);
     margin: 20px 0 20px 20px;
     padding: 20px;
+    box-sizing: border-box;
   }
 
   main .section.content-container > div:nth-child(2) {
-    width: 33.3333%;
+    width: 350px;
     margin: unset;
     margin-top: 20px;
     padding: 0 20px 20px;
+    box-sizing: border-box;
   }
 }
 
