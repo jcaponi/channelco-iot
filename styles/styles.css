@@ -353,6 +353,26 @@ main .page-title {
   padding: 5px 5px 20px 0;
 }
 
+main .default-content-wrapper h3 {
+  font-size: 15px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.section.sponsor h3 {
+  float: right;
+  margin-top: -50px;
+  color: #d7d7d7;
+  font-size: 36px;
+  font-weight: normal;
+  padding: 0 20px;
+}
+
+.section.sponsor h4 {
+  font-size: 18px;
+  padding: 20px 20px 0;
+}
+
 main .section.page-title h4, main .section.page-title h3 {
   color: #000;
   font-size: 18px;
@@ -375,12 +395,6 @@ main .default-content-wrapper h2 {
   font-size: 16px;
   font-weight: 600;
   margin: 0 0 5px;
-}
-
-main .default-content-wrapper h3 {
-  font-size: 15px;
-  font-weight: 400;
-  margin: 0;
 }
 
 /* Ad styles */
@@ -444,20 +458,6 @@ body noscript.gtm-iframe {
   max-width: 75px;
   margin-left: 20px;
   vertical-align: middle;
-}
-
-.section.sponsor h3 {
-  float: right;
-  margin-top: -50px;
-  color: #d7d7d7;
-  font-size: 36px;
-  font-weight: normal;
-  padding: 0 20px;
-}
-
-.section.sponsor h4 {
-  font-size: 18px;
-  padding: 20px 20px 0;
 }
 
 @media (max-width: 900px) {
