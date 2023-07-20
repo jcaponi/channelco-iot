@@ -197,7 +197,7 @@ export default async function decorate(block) {
             <div class="newslist-item-footer">
               Category: <a href="/application?id=${e.application}">${e.application}</a> <br>
               Vertical: <a href="/vertical?id=${e.vertical}">${e.vertical}</a> <br>
-              Partners: <a href="/featured-sis?id=${e['featured-sis']}">${e['featured-sis']}</a> <br>
+              ${e['featured-sis'] ? `Partners: <a href="/featured-sis?id=${e['featured-sis']}">${e['featured-sis']}</a> <br>` : 'Partners: <br>'}
             </div>
           </div>
         </div>

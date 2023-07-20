@@ -1,7 +1,7 @@
 export default function decorate(block) {
   const heroHtml = `
     <div>
-      <img src = '/images/hero-banner.jpeg'>
+      <img src = '/images/hero-banner.jpeg' alt='hero'>
       <h1>
         <a href="/">IoT Integrator</a>
       </h1>
