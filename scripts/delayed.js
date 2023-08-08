@@ -4,6 +4,7 @@ import {
   sampleRUM,
   buildBlock,
   loadBlock,
+  getMetadata,
 } from './lib-franklin.js';
 
 function loadScript(url, attrs, body) {
@@ -45,14 +46,17 @@ function buildTopAd(main) {
 }
 
 function buildAsideBlock(main) {
-  const block = buildBlock('aside', [[]]);
-  block.classList.add('block');
-  block.setAttribute('data-block-name', 'aside');
-  // append the aside block to either newslist-container or first non hero-header-container section
-  const container = main.querySelector('.newslist-container') || main.querySelector('.content-container');
-  if (container) {
-    container.append(block);
-    loadBlock(block);
+  const template = getMetadata('template');
+  if (template !== 'Marketing') {
+    const block = buildBlock('aside', [[]]);
+    block.classList.add('block');
+    block.setAttribute('data-block-name', 'aside');
+    // append the aside block to either newslist-container or first non hero-header-container section
+    const container = main.querySelector('.newslist-container') || main.querySelector('.content-container');
+    if (container) {
+      container.append(block);
+      loadBlock(block);
+    }
   }
 }
 
