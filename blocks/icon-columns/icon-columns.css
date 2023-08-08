@@ -27,6 +27,11 @@
   min-width: 100px;
 }
 
+.icon-columns h5 {
+  color: red;
+  font-weight: 600;
+}
+
 .icon-columns > div > div {
   order: 1;
   display: flex;
