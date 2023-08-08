@@ -38,16 +38,6 @@ export async function lookupPages(pathnames) {
   return pathnames.map((path) => window.pageIndex.lookup[path]).filter((e) => e);
 }
 
-/**
- * Builds hero block and prepends to main in a new section.
- * @param {Element} main The container element
- */
-function buildHeroBlock(main) {
-  const section = document.createElement('div');
-  section.append(buildBlock('hero', { elems: [] }));
-  main.prepend(section);
-}
-
 // Article
 // Retreive metadata value based on the key
 function getMetadata(key) {
@@ -56,6 +46,26 @@ function getMetadata(key) {
     return metaElement.getAttribute('content');
   }
   return '';
+}
+
+/**
+ * Builds hero block and prepends to main in a new section.
+ * @param {Element} main The container element
+ */
+function buildHeroBlock(main) {
+  const template = getMetadata('template');
+  if (template !== 'Marketing') {
+    const section = document.createElement('div');
+    const heroDiv = `<div>
+      <img src = '/images/hero-banner.jpeg' alt='hero'>
+      <h1>
+        <a href="/">IoT Integrator</a>
+      </h1>
+      <h2>Powering the business behind the Internet of Things</h2>
+    </div>`;
+    section.append(buildBlock('hero', { elems: [heroDiv] }));
+    main.prepend(section);
+  }
 }
 
 /**
