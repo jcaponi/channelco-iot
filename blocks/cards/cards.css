@@ -25,7 +25,9 @@ body.marketing .cards > ul {
 }
 
 .cards .cards-card-body {
+  display: grid;
   margin: 16px;
+  height: 100%;
 }
 
 .cards .cards-card-image {
