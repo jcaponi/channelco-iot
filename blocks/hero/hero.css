@@ -20,15 +20,15 @@ main .section.hero-container h3 {
 }
 
 main .section.hero-container h1 {
-  font-size: 2.5rem;
+  font-size: 1.5rem;
 }
 
 main .section.hero-container h2 {
-  font-size: 2rem;
+  font-size: 1.25rem;
 }
 
 main .section.hero-container h3 {
-  font-size: 1.75rem;
+  font-size: 1rem;
   margin-top: 20px;
 }
 
@@ -63,7 +63,7 @@ body main .section .hero img {
 }
 
 body.marketing main .section .hero img {
-  height: 100%;
+  min-height: 500px;
 }
 
 main .section .hero-container {
@@ -78,8 +78,21 @@ main .section .hero-container {
   } */
 }
 
-/* @media (min-width: 900px) {
+@media (min-width: 900px) {
   main .section .hero-container {
     background-image: none;
   }
-} */
+
+  main .section.hero-container h1 {
+    font-size: 2.5rem;
+  }
+  
+  main .section.hero-container h2 {
+    font-size: 2rem;
+  }
+  
+  main .section.hero-container h3 {
+    font-size: 1.75rem;
+    margin-top: 20px;
+  }
+}

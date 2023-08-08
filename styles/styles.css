@@ -251,6 +251,11 @@ main .section {
   padding: 0 16px;
 }
 
+body.marketing main .section>div {
+  max-width: 540px;
+  margin: auto;
+}
+
 main .section.content-container > div:first-child {
   background-color: #fff;
   border-radius: 5px;
@@ -263,6 +268,11 @@ main .section.content-container > div:first-child {
 @media (min-width: 900px) {
   .section>div {
     max-width: 1200px;
+    margin: auto;
+  }
+
+  body.marketing main .section>div {
+    max-width: 720px;
     margin: auto;
   }
 
@@ -464,5 +474,12 @@ body noscript.gtm-iframe {
   .section.sponsor h3 {
     margin-top: 0;
     float: none;
+  }
+}
+
+@media (min-width: 1200px) {
+  body.marketing main .section>div {
+    max-width: 1140px;
+    margin: auto;
   }
 }
