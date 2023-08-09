@@ -38,16 +38,6 @@ export async function lookupPages(pathnames) {
   return pathnames.map((path) => window.pageIndex.lookup[path]).filter((e) => e);
 }
 
-/**
- * Builds hero block and prepends to main in a new section.
- * @param {Element} main The container element
- */
-function buildHeroBlock(main) {
-  const section = document.createElement('div');
-  section.append(buildBlock('hero', { elems: [] }));
-  main.prepend(section);
-}
-
 // Article
 // Retreive metadata value based on the key
 function getMetadata(key) {
@@ -56,6 +46,26 @@ function getMetadata(key) {
     return metaElement.getAttribute('content');
   }
   return '';
+}
+
+/**
+ * Builds hero block and prepends to main in a new section.
+ * @param {Element} main The container element
+ */
+function buildHeroBlock(main) {
+  const template = getMetadata('template');
+  if (template !== 'Marketing') {
+    const section = document.createElement('div');
+    const heroDiv = `<div>
+      <img src = '/images/hero-banner.jpeg' alt='hero'>
+      <h1>
+        <a href="/">IoT Integrator</a>
+      </h1>
+      <h2>Powering the business behind the Internet of Things</h2>
+    </div>`;
+    section.append(buildBlock('hero', { elems: [heroDiv] }));
+    main.prepend(section);
+  }
 }
 
 /**
@@ -227,34 +237,37 @@ async function loadEager(doc) {
  * @param {Element} the main element
  */
 function setContentContainer(main) {
-  // this is the container that will hold the main page content and
-  // aside (which will be loaded in delayed)
-  const skipList = ['hero-container', 'page-title', 'sponsor'];
-  let container = main.querySelector('.newslist-container');
-  if (!container) {
-    const allSections = main.querySelectorAll('div.section');
-    const newSection = document.createElement('div');
-    newSection.classList.add('section');
-    allSections.forEach((section) => {
-      // check if section.classList includes any of the skipList,
-      // otherwise move that section to the newSection
-      if (!skipList.some((skipItem) => section.classList.contains(skipItem))) {
-        section.classList.remove('section');
-        newSection.append(section);
+  const template = getMetadata('template');
+  if (template !== 'Marketing') {
+    // this is the container that will hold the main page content and
+    // aside (which will be loaded in delayed)
+    const skipList = ['hero-container', 'page-title', 'sponsor'];
+    let container = main.querySelector('.newslist-container');
+    if (!container) {
+      const allSections = main.querySelectorAll('div.section');
+      const newSection = document.createElement('div');
+      newSection.classList.add('section');
+      allSections.forEach((section) => {
+        // check if section.classList includes any of the skipList,
+        // otherwise move that section to the newSection
+        if (!skipList.some((skipItem) => section.classList.contains(skipItem))) {
+          section.classList.remove('section');
+          newSection.append(section);
+        }
+      });
+      // if newSection length is greater than 0, append the block to the newSection
+      if (newSection.children.length > 0) {
+        const parentSection = document.createElement('div');
+        parentSection.classList.add('section');
+        parentSection.classList.add('content-container');
+        parentSection.append(newSection);
+        main.append(parentSection);
+        container = parentSection;
       }
-    });
-    // if newSection length is greater than 0, append the block to the newSection
-    if (newSection.children.length > 0) {
-      const parentSection = document.createElement('div');
-      parentSection.classList.add('section');
-      parentSection.classList.add('content-container');
-      parentSection.append(newSection);
-      main.append(parentSection);
-      container = parentSection;
     }
-  }
-  if (container) {
-    container.classList.add('content-container');
+    if (container) {
+      container.classList.add('content-container');
+    }
   }
 }
 
@@ -265,7 +278,7 @@ function setContentContainer(main) {
 async function loadLazy(doc) {
   const main = doc.querySelector('main');
   await loadBlocks(main);
-  // set contnet container
+  // set content container
   setContentContainer(main);
 
   const { hash } = window.location;

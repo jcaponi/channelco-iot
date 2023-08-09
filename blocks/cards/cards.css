@@ -1,3 +1,8 @@
+body.marketing .cards-container {
+  margin-top: -400px;
+  margin-bottom: 20px;
+}
+
 .cards > ul {
   list-style: none;
   margin: 0;
@@ -5,15 +10,24 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-gap: 16px;
+  justify-content: center;
+}
+
+body.marketing .cards > ul {
+  grid-template-columns: repeat(1, 280px);
 }
 
 .cards > ul > li {
   border: 1px solid var(--highlight-background-color);
-  background-color: var(--background-color)
+  background-color: var(--background-color);
+  max-width: 280px;
+  min-height: 365px;
 }
 
 .cards .cards-card-body {
+  display: grid;
   margin: 16px;
+  height: 100%;
 }
 
 .cards .cards-card-image {
@@ -28,4 +42,10 @@
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
+}
+
+@media screen and (min-width: 900px) {
+  body.marketing .cards > ul {
+    grid-template-columns: repeat(3, 280px);
+  } 
 }
